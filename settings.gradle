@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':BaseModule'
 rootProject.name='MapCommunication'
