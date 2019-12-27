@@ -1,4 +1,16 @@
 package com.bawei6.basemodule.basemvp;
 
-public class BaseContract {
+public interface BaseContract {
+
+    interface BaseModel{
+
+    }
+
+    interface BaseView{
+
+    }
+
+    interface BasePresenter{
+
+    }
 }
