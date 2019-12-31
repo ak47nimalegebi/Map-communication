@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyCustTitleBar">
+        <attr name="cust_img_left" format="reference"/>
+        <attr name="cust_tv_title" format="reference"/>
+        <attr name="cust_edi" format="reference"/>
+        <attr name="cust_img_right" format="reference"/>
+    </declare-styleable>
+</resources>

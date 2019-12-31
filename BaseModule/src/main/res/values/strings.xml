@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MapCommunication</string>
+    <string name="app_cust_title">  您距离小明还有3km</string>
 </resources>

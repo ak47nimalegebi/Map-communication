@@ -39,8 +39,31 @@ dependencies {
     //Gson converter
     api "com.squareup.retrofit2:converter-gson:$converter_version"
     //RxJava2 Adapter
-    api "com.squareup.retrofit2:adapter-rxjava2:$rxjava2_version"
+    api "com.squareup.retrofit2:adapter-rxjava2:${rxjava2_version}"
     api "com.squareup.okhttp3:okhttp:$okhttp_version"
     api "com.squareup.okhttp3:logging-interceptor:$logging_version"
+
+    api "com.trello.rxlifecycle2:rxlifecycle:$rxlifecycle_version"
+    api "com.trello.rxlifecycle2:rxlifecycle-android:$rxlifecycle_android_version"
+    api "com.trello.rxlifecycle2:rxlifecycle-components:$rxlifecycle_components_version"
+    api "com.uber.autodispose:autodispose-android-archcomponents:$autodispose_version"
+
+    api "com.umeng.umsdk:analytics:$analytics_version"
+
+    api "com.umeng.umsdk:common:$common_version"
+
+    api "com.umeng.umsdk:push:$push_version"
+
+
+    implementation 'com.amap.api:search:latest.integration'
+    //搜索
+    implementation 'com.amap.api:navi-3dmap:latest.integration'
+    //3d导航
+    implementation 'com.google.android.material:material:1.0.0'
+    //定位
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+
+
 
 }

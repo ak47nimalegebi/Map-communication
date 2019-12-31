@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -27,6 +32,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':BaseModule')
+
+    implementation 'com.amap.api:search:latest.integration'
+    //搜索
+    implementation 'com.amap.api:navi-3dmap:latest.integration'
+    //3d导航
+    implementation 'com.google.android.material:material:1.0.0'
+    //定位
 
     if(isUserModule.toBoolean()){
         implementation project(path: ':UserModule')

@@ -24,14 +24,12 @@ public class RetrofitFactory {
     private static OkHttpClient.Builder builder;
     private static Retrofit retrofit;
 
-
-
     private RetrofitFactory() {
        retrofit  = new Retrofit.Builder()
                 .client(initClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://www.city2sky.cn/")
+                .baseUrl("http://api.zydeveloper.com:10001/")
                 .build();
     }
 
@@ -94,7 +92,7 @@ public class RetrofitFactory {
         String password = null;
         try {
             ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
-             password = apiServer.getTokenCall("password", "8614e12f13c15b1681a81e215a1901e71541871cc1c51531", "")
+             password = apiServer.getTokenCall("password", "a31ba1ac10113b10e1121c619310b1b619a19c1f116c1e51", "")
                     .execute().body().getAccess_token();
 
         } catch (IOException e) {
@@ -114,23 +112,7 @@ public class RetrofitFactory {
         }
     }
 
-//    private Interceptor addTokenHander(){
-//
-//        Interceptor interceptor = new Interceptor() {
-//            @RequiresApi(api = Build.VERSION_CODES.M)
-//            @Override
-//            public Response intercept(Chain chain) throws IOException {
-//                Request request = chain.request()
-//                        .newBuilder()
-//                        .addHeader("Content-Type", "application-json")
-//                        .addHeader("charset", "utf-8")
-//
-//                        .build();
-//                return chain.proceed(request);
-//            }
-//        };
-//       return interceptor;
-//    }
+
 
     public OkHttpClient initClient() {
         return getOkHttpClient()

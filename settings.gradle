@@ -1,2 +1,2 @@
-include ':app', ':BaseModule', ':UserModule'
+include ':app', ':BaseModule', ':UserModule', ':XmppLibrary', ':CommonLibrary'
 rootProject.name='MapCommunication'

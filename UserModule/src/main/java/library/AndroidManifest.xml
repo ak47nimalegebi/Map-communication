@@ -1,2 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bawei6.usermodule" />
+    package="com.bawei6.usermodule">
+
+    <application>
+        <activity android:name=".UpdateActivity"></activity>
+        <activity android:name=".ImActivity" />
+        <activity android:name=".LogActivity" />
+    </application>
+
+</manifest>
