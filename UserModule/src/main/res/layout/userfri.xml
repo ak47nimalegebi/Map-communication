@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:src="@drawable/lianxiren2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"/>
+
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/user_lianfra_tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa"
+        android:textSize="25sp"/>
+
+</LinearLayout>

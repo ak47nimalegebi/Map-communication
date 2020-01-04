@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NormalTitBar">
+        <attr name="normal_img_left" format="reference"/>
+        <attr name="normal_tv_title" format="reference"/>
+        <attr name="normal_img_right" format="reference"/>
+    </declare-styleable>
+</resources>

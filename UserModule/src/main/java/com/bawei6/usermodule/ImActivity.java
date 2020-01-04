@@ -30,7 +30,6 @@ public class ImActivity extends AppCompatActivity {
         edi_mess=findViewById(R.id.edi_friend);
 
 
-
         XmppManager.getInstance().addMessageListener(new IMsgCallback() {
             @Override
             public void Success(MsgEntity msgEntity) {

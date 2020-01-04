@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/addfra_edi"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="12"
+            android:layout_height="70dp"
+            android:hint="搜索账号/手机号码/昵称"
+            android:drawableLeft="@drawable/search"
+            android:background="@drawable/add"
+            android:layout_marginTop="10dp"
+            />
+        <Button
+            android:id="@+id/addfri_btn"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="5"
+            android:text="搜索"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+
+        android:background="#D1CECE"/>
+
+
+    <TextView
+        android:id="@+id/addfra_tv_lian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/shouji"
+        android:text="添加手机联系人"
+        android:layout_marginLeft="50dp"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="#D1CECE"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#D1CECE"/>
+
+
+    <TextView
+        android:id="@+id/addfra_tv_mian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="面对面加好友"
+        android:drawableLeft="@drawable/mianduimiansaomazhuli"
+        android:layout_marginLeft="50dp"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="#D1CECE"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="20dp"
+        android:background="#D1CECE"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/addfra_find_recy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

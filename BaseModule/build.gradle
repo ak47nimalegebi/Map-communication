@@ -13,6 +13,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -54,6 +60,10 @@ dependencies {
 
     api "com.umeng.umsdk:push:$push_version"
 
+    api "cn.yipianfengye.android:zxing-library:$zxing_version"
+
+    api "com.alibaba:arouter-api:$arouter_version"
+
 
     implementation 'com.amap.api:search:latest.integration'
     //搜索
@@ -62,8 +72,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     //定位
     implementation "com.github.bumptech.glide:glide:$glide_version"
-
-
 
 
 }

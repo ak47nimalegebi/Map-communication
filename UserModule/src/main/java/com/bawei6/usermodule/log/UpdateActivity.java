@@ -1,4 +1,4 @@
-package com.bawei6.usermodule;
+package com.bawei6.usermodule.log;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +14,14 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.bawei6.basemodule.basemvp.BaseContract;
 import com.bawei6.basemodule.basemvp.Presenter;
+import com.bawei6.basemodule.bean.LogBean;
+import com.bawei6.basemodule.bean.ScoureBean;
 import com.bawei6.basemodule.bean.UpdateBodyBean;
+import com.bawei6.basemodule.bean.UserFriBean;
+import com.bawei6.usermodule.R;
 import com.baweigame.xmpplibrary.XmppManager;
+
+import java.util.List;
 
 public class UpdateActivity extends AppCompatActivity implements BaseContract.BaseView {
 
@@ -69,9 +75,11 @@ public class UpdateActivity extends AppCompatActivity implements BaseContract.Ba
     }
 
     @Override
-    public void showLogResult(String logResult) {
+    public void showLogResult(List<LogBean.DataBean> list, String logResult, int code) {
 
     }
+
+
 
     @Override
     public void showUpdateResult(final String updateResult) {
@@ -90,6 +98,22 @@ public class UpdateActivity extends AppCompatActivity implements BaseContract.Ba
             }
         }).start();
     }
+
+    @Override
+    public void showScourBean(List<ScoureBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showAddFriResult(String msg, Boolean flag) {
+
+    }
+
+    @Override
+    public void showUserFri(List<UserFriBean.DataBean> list) {
+
+    }
+
 
     @Override
     public void showLoading() {

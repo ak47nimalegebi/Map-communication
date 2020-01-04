@@ -18,17 +18,19 @@
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"/>
 
-        <LinearLayout
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/yuan"
-            android:layout_marginLeft="20dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="70dp"-->
+<!--            android:background="@drawable/yuan"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:gravity="center">-->
 
                 <ImageView
                     android:id="@+id/botom_img3"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp" />
-        </LinearLayout>
+                    android:layout_width="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="30dp" />
+<!--        </LinearLayout>-->
 
 
 

@@ -14,11 +14,11 @@ import com.bawei6.basemodule.R;
 
 public class BottomActionView extends LinearLayout {
 
-    private ImageView bottom_img1;
-    private ImageView bottom_img2;
-    private ImageView bottom_img3;
-    private ImageView bottom_img4;
-    private ImageView bottom_img5;
+    public static ImageView bottom_img1;
+    public static ImageView bottom_img2;
+    public static ImageView bottom_img3;
+    public static ImageView bottom_img4;
+    public static ImageView bottom_img5;
 
     public BottomActionView(Context context) {
         super(context);

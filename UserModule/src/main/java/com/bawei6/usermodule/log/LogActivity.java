@@ -1,4 +1,4 @@
-package com.bawei6.usermodule;
+package com.bawei6.usermodule.log;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,9 +21,16 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.bawei6.basemodule.basemvp.BaseContract;
 import com.bawei6.basemodule.basemvp.Presenter;
+import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
 import com.bawei6.basemodule.bean.ResBodyBean;
+import com.bawei6.basemodule.bean.ScoureBean;
+import com.bawei6.basemodule.bean.UserFriBean;
+import com.bawei6.usermodule.bottonbar.lianxiren.LianxirenActivity;
+import com.bawei6.usermodule.R;
 import com.baweigame.xmpplibrary.XmppManager;
+
+import java.util.List;
 
 public class LogActivity extends AppCompatActivity  implements BaseContract.BaseView {
 
@@ -45,9 +52,21 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
                     Bundle bundle= (Bundle) msg.obj;
                     String logResult = bundle.getString("web");
                     boolean im = bundle.getBoolean("im");
-                    if(im==true&&logResult.equals("200")){
-                        Toast.makeText(LogActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LogActivity.this,ImActivity.class));
+                    String usercode = bundle.getString("usercode");
+                    int code = bundle.getInt("logcode");
+
+                    Log.i("AK47","ImServerHandler"+im);
+                    Log.i("AK47","WebServerHandler"+logResult);
+                    Log.i("AK47","userCodeHandler"+usercode);
+                    Log.i("AK47","CodeHandler"+usercode);
+
+                    if(im==true&&code==200){
+                        Toast.makeText(LogActivity.this,
+                                "登陆成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LogActivity.this, LianxirenActivity.class);
+                        intent.putExtra("codde",usercode);
+                        startActivity(intent);
+//                        ARouter.getInstance().build(ArouterUtils.MapView).withString("code",usercode).navigation();
                     }else {
                         Toast.makeText(LogActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
                     }
@@ -66,6 +85,7 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
         btn_res=findViewById(R.id.btn_res);
         user_log_ck=findViewById(R.id.user_log_ck);
         user_tv_update=findViewById(R.id.user_tv_update);
+
 
         presenter.setAttachVie(this);
 
@@ -108,8 +128,8 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
                final String name = edi_name.getText().toString();
                final String pwd = edi_pwd.getText().toString();
 
-               resBodyBean.setId(1);
-               resBodyBean.setUsercode("sample string 2");
+                resBodyBean.setId(1);
+                resBodyBean.setUsercode("sample string 2");
                 resBodyBean.setUsername(name);
                 resBodyBean.setPwd(pwd);
                 resBodyBean.setSex("1");
@@ -121,6 +141,7 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
                 resBodyBean.setSigndesc("sample string 11");
                 resBodyBean.setOpenlocation(12);
                 resBodyBean.setOpenmsgalert(13);
+
                 presenter.LoadResBeanP(name,pwd,resBodyBean);
             }
         });
@@ -147,16 +168,14 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
                 Looper.loop();
             }
         }).start();
-
         Toast.makeText(LogActivity.this, msg, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
-    public void showLogResult(final String logResult) {
-
+    public void showLogResult(List<LogBean.DataBean> list, final String logResult, final int code) {
         final   String name = edi_name.getText().toString();
         final String pwd = edi_pwd.getText().toString();
+        final String usercode = list.get(0).getUsercode();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -164,23 +183,42 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
 
                 Log.i("AK47","ImServer"+login);
                 Log.i("AK47","WebServer"+logResult);
+                Log.i("AK47","code"+usercode);
+                Log.i("AK47","返回"+code);
 
                 Message obtain = Message.obtain();
                 obtain.what=101;
                 Bundle bundle = new Bundle();
                 bundle.putString("web",logResult);
                 bundle.putBoolean("im",login);
+                bundle.putString("usercode",usercode);
+                bundle.putInt("logcode",code);
                 obtain.obj=bundle;
                 handler.sendMessage(obtain);
             }
         }).start();
-
     }
 
     @Override
     public void showUpdateResult(String updateResult) {
 
     }
+
+    @Override
+    public void showScourBean(List<ScoureBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showAddFriResult(String msg, Boolean flag) {
+
+    }
+
+    @Override
+    public void showUserFri(List<UserFriBean.DataBean> list) {
+
+    }
+
 
     @Override
     public void showLoading() {

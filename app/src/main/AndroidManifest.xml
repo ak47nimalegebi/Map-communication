@@ -16,7 +16,6 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
 
@@ -24,8 +23,20 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 
     <application
         android:allowBackup="true"
@@ -40,6 +51,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name="com.bawei6.usermodule.log.LogActivity">
+
+        </activity>
+
+        <activity android:name="com.bawei6.usermodule.bottonbar.lianxiren.AddFriends"/>
+        <activity android:name="com.bawei6.usermodule.bottonbar.lianxiren.LianxirenActivity"/>
+        <activity android:name="com.bawei6.usermodule.log.UpdateActivity"/>
+        <activity android:name="com.bawei6.usermodule.ImActivity"/>
+        <activity android:name="com.bawei6.basemodule.basemvp.BaseActivity"/>
+        <activity android:name="com.bawei6.basemodule.basemvp.BaseMvpActivity"/>
+        <activity android:name="com.bawei6.usermodule.bottonbar.lianxiren.AddLianxirenActivity"/>
+        <activity android:name="com.bawei6.usermodule.bottonbar.daun.DuanxinActivity"/>
+        <activity android:name="com.bawei6.usermodule.bottonbar.FriendsActivity"/>
+        <activity android:name="com.bawei6.usermodule.bottonbar.KongjianActivity"/>
+        <activity android:name="com.bawei6.usermodule.bottonbar.ZaoxingjiActivity"/>
 
         <meta-data android:name="com.bawei6.evilmap" android:value="08731d94c25439df1bd4ac580e1ef508"/>
 

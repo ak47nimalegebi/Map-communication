@@ -21,6 +21,7 @@ import com.baweigame.xmpplibrary.impl.DefaultXmppFriendImpl;
 import com.baweigame.xmpplibrary.impl.DefaultXmppGroupImpl;
 import com.baweigame.xmpplibrary.impl.DefaultXmppMsgImpl;
 import com.baweigame.xmpplibrary.impl.DefaultXmppUserImpl;
+
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
@@ -48,7 +49,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
-import java.util.PropertyResourceBundle;
 
 public class XmppManager {
 
@@ -233,7 +233,7 @@ public class XmppManager {
                     .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
                     .setCompressionEnabled(false)
                     .setDebuggerEnabled(true)
-                    .setSendPresence(false)//设置离线状态获取离线消息
+//                    .setSendPresence(false)//设置离线状态获取离线消息
                     .build();
 
             //设置需要经过同意才可以加为好友

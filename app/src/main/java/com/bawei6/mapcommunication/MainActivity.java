@@ -1,11 +1,11 @@
 package com.bawei6.mapcommunication;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
 
 import com.bawei6.usermodule.UserFragMent;
 
@@ -25,8 +25,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fraaa,fragment,"f1")
                 .addToBackStack("f1")
                 .commit();
-
-
-
     }
 }

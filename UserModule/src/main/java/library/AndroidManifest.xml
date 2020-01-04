@@ -3,9 +3,17 @@
     package="com.bawei6.usermodule">
 
     <application>
-        <activity android:name=".UpdateActivity"></activity>
+        <activity android:name=".bottonbar.daun.ChatActivity"></activity>
+        <activity android:name=".bottonbar.lianxiren.AddLianxirenActivity" />
+        <activity android:name=".bottonbar.lianxiren.AddFriends" />
+        <activity android:name=".bottonbar.FriendsActivity" />
+        <activity android:name=".bottonbar.ZaoxingjiActivity" />
+        <activity android:name=".bottonbar.daun.DuanxinActivity" />
+        <activity android:name=".bottonbar.KongjianActivity" />
+        <activity android:name=".bottonbar.lianxiren.LianxirenActivity" />
+        <activity android:name=".log.UpdateActivity" />
         <activity android:name=".ImActivity" />
-        <activity android:name=".LogActivity" />
+        <activity android:name=".log.LogActivity" />
     </application>
 
 </manifest>

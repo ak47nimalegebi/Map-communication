@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".bottonbar.lianxiren.LianxirenActivity"
+    android:orientation="vertical">
+
+
+    <com.bawei6.basemodule.titlebar.NormalTitBar
+        android:id="@+id/user_lian_normaltitbar"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:normal_img_left="@drawable/fanhui"
+        app:normal_img_right="@drawable/tianjiahaoyou"
+        android:background="#339999"
+        app:normal_tv_title="@string/app_normal"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_lian_shou_recy"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        />
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:background="#339999"
+        app:tabTextColor="#fff"
+        app:tabIndicatorColor="#FFEB3B"
+        android:id="@+id/user_lian_tab"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/user_lian_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"/>
+
+
+</LinearLayout>

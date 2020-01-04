@@ -1,4 +1,4 @@
-package com.bawei6.basemodule.basemvp.DeviceInfoConfig;
+package com.bawei6.basemodule.DeviceInfoConfig;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

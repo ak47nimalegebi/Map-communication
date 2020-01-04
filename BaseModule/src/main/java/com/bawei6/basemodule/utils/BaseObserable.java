@@ -17,4 +17,5 @@ public class BaseObserable {
                 .as(AutoDispose.<T>autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
                 .subscribe(observer);
     }
+
 }
