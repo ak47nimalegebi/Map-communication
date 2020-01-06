@@ -1,6 +1,7 @@
 package com.bawei6.usermodule.bottonbar.lianxiren;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bawei6.basemodule.sqlite.MySqlite;
 import com.bawei6.basemodule.titlebar.NormalTitBar;
 import com.bawei6.usermodule.R;
 import com.bawei6.usermodule.adapter.UserLianPagerAdapter;
@@ -25,6 +27,9 @@ public class LianxirenActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private MySqlite mySqlite;
+    private SQLiteOpenHelper sqLiteOpenHelper;
 
 
     private List<Fragment> fragmentList=new ArrayList<>();
@@ -43,10 +48,16 @@ public class LianxirenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lianxiren);
 
+        String names = getIntent().getStringExtra("names");
+//        mySqlite=new MySqlite(this,names+".db",null,0);
+//        SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+
 
         final Intent intent = getIntent();
         final String code = intent.getStringExtra("codde");
+        final String  myName = intent.getStringExtra("names");
         Log.i("AK47",code);
+        Log.i("AK47",myName);
 
 
 
@@ -58,7 +69,7 @@ public class LianxirenActivity extends AppCompatActivity {
 
 
         user_lian_chat=new UserLianChatFragment();
-        user_lian_friends=new UserLianFriendsFragment(code);
+        user_lian_friends=new UserLianFriendsFragment(myName,code);
         user_lian_group=new UserLianGroupFragment();
         titleList.add("好友");
         titleList.add("分组");

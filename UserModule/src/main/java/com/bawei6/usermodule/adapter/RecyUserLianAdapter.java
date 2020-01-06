@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawei6.basemodule.bean.UserFriBean;
+import com.bawei6.usermodule.CallBackOnclick;
 import com.bawei6.usermodule.R;
 
 import java.util.List;
@@ -18,6 +19,12 @@ public class RecyUserLianAdapter extends RecyclerView.Adapter<RecyUserLianAdapte
 
     private Context context;
     private List<UserFriBean.DataBean> list;
+
+    private CallBackOnclick callBackOnclick;
+
+    public void getClick(CallBackOnclick callBackOnclick){
+        this.callBackOnclick=callBackOnclick;
+    }
 
     public RecyUserLianAdapter(Context context, List<UserFriBean.DataBean> list) {
         this.context = context;
@@ -32,8 +39,14 @@ public class RecyUserLianAdapter extends RecyclerView.Adapter<RecyUserLianAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserLianViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserLianViewHolder holder, final int position) {
         holder.user_LianFra_tv_userName.setText(list.get(position).getUsername());
+        holder.user_LianFra_tv_userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callBackOnclick.getOnclick(view,position);
+            }
+        });
     }
 
     @Override
@@ -46,6 +59,7 @@ public class RecyUserLianAdapter extends RecyclerView.Adapter<RecyUserLianAdapte
         public UserLianViewHolder(@NonNull View itemView) {
             super(itemView);
             user_LianFra_tv_userName=itemView.findViewById(R.id.user_lianfra_tv_username);
+
         }
     }
 }

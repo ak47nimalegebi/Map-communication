@@ -53,18 +53,21 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
                     String logResult = bundle.getString("web");
                     boolean im = bundle.getBoolean("im");
                     String usercode = bundle.getString("usercode");
+                    String username = bundle.getString("name");
                     int code = bundle.getInt("logcode");
 
                     Log.i("AK47","ImServerHandler"+im);
                     Log.i("AK47","WebServerHandler"+logResult);
                     Log.i("AK47","userCodeHandler"+usercode);
                     Log.i("AK47","CodeHandler"+usercode);
+                    Log.i("AK47","name"+username);
 
                     if(im==true&&code==200){
                         Toast.makeText(LogActivity.this,
                                 "登陆成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LogActivity.this, LianxirenActivity.class);
                         intent.putExtra("codde",usercode);
+                        intent.putExtra("names",username);
                         startActivity(intent);
 //                        ARouter.getInstance().build(ArouterUtils.MapView).withString("code",usercode).navigation();
                     }else {
@@ -176,6 +179,7 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
         final   String name = edi_name.getText().toString();
         final String pwd = edi_pwd.getText().toString();
         final String usercode = list.get(0).getUsercode();
+        final String username = list.get(0).getUsername();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -193,6 +197,7 @@ public class LogActivity extends AppCompatActivity  implements BaseContract.Base
                 bundle.putBoolean("im",login);
                 bundle.putString("usercode",usercode);
                 bundle.putInt("logcode",code);
+                bundle.putString("name",username);
                 obtain.obj=bundle;
                 handler.sendMessage(obtain);
             }

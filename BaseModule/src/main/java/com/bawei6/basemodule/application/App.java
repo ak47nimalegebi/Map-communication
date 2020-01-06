@@ -3,6 +3,7 @@ package com.bawei6.basemodule.application;
 import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bawei6.basemodule.AliyunUtils;
 import com.bawei6.basemodule.DeviceInfoConfig.AppInfoConfig;
 import com.bawei6.basemodule.DeviceInfoConfig.DeviceInfoConfig;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
@@ -19,5 +20,6 @@ public class App extends Application {
         ARouter.openLog();
         ARouter.openDebug();
         ARouter.init(this);
+        AliyunUtils.getInstance().init(this);
     }
 }

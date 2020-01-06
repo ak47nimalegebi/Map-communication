@@ -24,12 +24,11 @@ import com.bawei6.basemodule.basemvp.Presenter;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.ScoureBean;
 import com.bawei6.basemodule.bean.UserFriBean;
-import com.bawei6.usermodule.bottonbar.lianxiren.AddLianxirenActivity;
 import com.bawei6.usermodule.CallBackOnclick;
 import com.bawei6.usermodule.R;
 import com.bawei6.usermodule.adapter.RecySocureAdapter;
 import com.bawei6.usermodule.adapter.RecyUserLianxiPhoneAdapter;
-import com.bawei6.usermodule.bean.MyPhone;
+import com.bawei6.usermodule.bottonbar.lianxiren.AddLianxirenActivity;
 import com.baweigame.xmpplibrary.XmppManager;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
@@ -84,12 +83,6 @@ public class UserAddPeopleFragment extends Fragment implements BaseContract.Base
                 presenter.LoadSourBeanP(userName);
             }
         });
-
-
-
-
-
-
         return inflate;
     }
 
@@ -129,7 +122,6 @@ public class UserAddPeopleFragment extends Fragment implements BaseContract.Base
                 }
                 Log.i("FriCode","user"+userCode+"\n"+friCode);
 
-                new MyPhone(username,null,null,1);
             }
         });
 

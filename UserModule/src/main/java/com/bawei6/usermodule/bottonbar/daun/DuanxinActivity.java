@@ -30,6 +30,12 @@ public class DuanxinActivity extends AppCompatActivity implements BaseContract.B
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_duanxin);
 
+//        Intent intent = getIntent();
+//        String mycode = intent.getStringExtra("mycode");
+//        String fricode = intent.getStringExtra("fricode");
+
+
+
         recyclerView=findViewById(R.id.xin_recy);
         presenter.setAttachVie(this);
         presenter.loadUserFriP("4cd6bba4e59d47bdb94a59d69e04b69c");
@@ -71,7 +77,7 @@ public class DuanxinActivity extends AppCompatActivity implements BaseContract.B
         adapter.getXinOnclick(new CallBackOnclick() {
             @Override
             public void getOnclick(View view, int position) {
-                startActivity(new Intent());
+                startActivity(new Intent(DuanxinActivity.this,ChatActivity.class));
             }
         });
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <ImageView
+        android:id="@+id/aaaaaaaaaaaa"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/lianxiren2"/>
+
+
+    <ImageView
+        android:id="@+id/chat_recy_img_left_pic"
+        android:layout_centerVertical="true"
+        android:layout_width="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_height="80dp"
+        android:layout_toRightOf="@id/aaaaaaaaaaaa"/>
+
+
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:text="mm"
+        android:textSize="25sp"
+        android:layout_toRightOf="@+id/aaaaaaaaaaaa"
+        android:id="@+id/chat_recy_tv_left_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
