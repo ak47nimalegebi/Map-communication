@@ -18,89 +18,110 @@
         />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/chat_normal_titbar"
-        android:id="@+id/chat_recy"
-        android:layout_width="match_parent"
-        android:layout_height="600dp" />
-
     <LinearLayout
-        android:layout_below="@+id/chat_recy"
+        android:layout_below="@id/chat_normal_titbar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_recy"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <EditText
-                android:id="@+id/chat_edi_msg"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"/>
-
-            <Button
-                android:id="@+id/chat_btn_send"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:text="发送"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
-
+            android:layout_weight="10"/>
 
         <LinearLayout
+            android:id="@+id/linearrrr"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:orientation="vertical"
+            android:layout_weight="2">
 
-            <ImageView
-                android:id="@+id/chat_img_yu"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/yuyin"/>
 
-            <ImageView
-                android:id="@+id/chat_img_pic"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/tupian"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/zhaoxiang"/>
+                <EditText
+                    android:id="@+id/chat_edi_msg"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"/>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/weizhi"/>
+                <Button
+                    android:id="@+id/chat_btn_send"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:text="发送"
+                    android:layout_height="match_parent"/>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/xiaolian"/>
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/more"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/chat_img_yu"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/yuyin"/>
+
+                <ImageView
+                    android:id="@+id/chat_img_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/tupian"/>
+
+                <ImageView
+                    android:id="@+id/chat_img_zao"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/zhaoxiang"/>
+
+                <ImageView
+                    android:id="@+id/chat_img_gps"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/weizhi"/>
+
+                <ImageView
+                    android:id="@+id/chat_img_face"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/xiaolian"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/more"/>
+
+            </LinearLayout>
         </LinearLayout>
 
-
-
+        <GridView
+            android:id="@+id/chat_grid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:numColumns="6"
+            android:visibility="gone"/>
 
     </LinearLayout>
+
+
+
+
 
     <com.ilike.voicerecorder.widget.VoiceRecorderView
         android:id="@+id/voice_recorder"
@@ -108,6 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="invisible" />
+
 
 
 

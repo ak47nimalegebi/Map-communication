@@ -1,21 +1,26 @@
 package com.bawei6.usermodule.bottonbar.daun;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,29 +29,39 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawei6.basemodule.AliyunUtils;
+import com.bawei6.usermodule.CallBackOnclick;
 import com.bawei6.usermodule.R;
+import com.bawei6.usermodule.adapter.ChatGridAdapter;
 import com.bawei6.usermodule.adapter.RecyChatAdapter;
 import com.bawei6.usermodule.bean.ChatBean;
+import com.bawei6.usermodule.bean.StartAudioActivity;
 import com.baweigame.xmpplibrary.XmppManager;
 import com.baweigame.xmpplibrary.callback.IMsgCallback;
 import com.baweigame.xmpplibrary.entity.MsgEntity;
+import com.hw.videoprocessor.VideoProcessor;
 import com.ilike.voicerecorder.widget.VoiceRecorderView;
 import com.wildma.pictureselector.PictureSelector;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
+    private static final int VIDEO_CODE = 999;
     private RecyclerView recyclerView;
     private RecyChatAdapter recyChatAdapter;
     private List<ChatBean> list=new ArrayList<>();
     private EditText chat_edi_msh;
     private Button chat_btn_send;
-    private ImageView chat_img_pic,chat_img_yu;
+    private ImageView chat_img_pic,chat_img_yu,chat_img_zao,chat_img_face,chat_img_gps;
     private VoiceRecorderView voiceRecorderView;
+
+    private GridView gridView;
+    private List<String> gridList=new ArrayList<>();
+    private ChatGridAdapter chatGridAdapter;
 
     private String jid="@api.city2sky";
     String mycode;
@@ -54,16 +69,25 @@ public class ChatActivity extends AppCompatActivity {
     String fricode;
     String friname;
 
+    private String outPath="/sdcard/Pictures/"+mycode+System.currentTimeMillis()+".mp4";
+
+
     private MediaPlayer mediaPlayer=new MediaPlayer();
-    private MediaRecorder mediaRecorder=new MediaRecorder();
-    private String fileName;
 
     private ImageView mic_img;
     private TextView mic_tv;
 
+    private String imgType="/img/";
+    private String audioType="/audio/";
+    private String videoType="/video/";
+
+
+
+
     private AudioRecoderUtils audioRecoderUtils;
 
 
+    @SuppressLint("HandlerLeak")
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -73,14 +97,14 @@ public class ChatActivity extends AppCompatActivity {
                 case 101:
                     Bundle bundle= (Bundle) msg.obj;
                     String send_msg = bundle.getString("send_msg");
-                    list.add(new ChatBean(SendType.textType,1,send_msg));
+                    list.add(new ChatBean(SendType.textType,1,send_msg,null));
                     recyChatAdapter.notifyDataSetChanged();
                     break;
                 case 102:
 
                     Bundle bundle2= (Bundle) msg.obj;
                     String get_msg = bundle2.getString("get_msg");
-                    list.add(new ChatBean(SendType.textType,0,get_msg));
+                    list.add(new ChatBean(SendType.textType,0,get_msg,null));
                     recyChatAdapter.notifyDataSetChanged();
 
                     break;
@@ -88,17 +112,48 @@ public class ChatActivity extends AppCompatActivity {
                 case 103:
                     Bundle bundle3= (Bundle) msg.obj;
                     String send_img = bundle3.getString("send_img");
-                    list.add(new ChatBean(SendType.imgType,1,send_img));
+                    list.add(new ChatBean(SendType.imgType,1,send_img,null));
                     recyChatAdapter.notifyDataSetChanged();
                     break;
 
                 case 104:
-
                     Bundle bundle4= (Bundle) msg.obj;
                     String get_pic = bundle4.getString("get_pic");
-                    list.add(new ChatBean(SendType.imgType,0,get_pic));
+                    AliyunUtils.getInstance().download("baweitest6",get_pic,"/sdcard/Pictures/"+get_pic+".jpg");
+                    list.add(new ChatBean(SendType.imgType,0,"/sdcard/Pictures/"+get_pic+".jpg",null));
                     recyChatAdapter.notifyDataSetChanged();
+                    break;
 
+                case 105:
+                    String path= (String) msg.obj;
+                    Log.i("audioType","handler接受:--->"+path);
+                    list.add(new ChatBean(SendType.audioType,1,path,null));
+                    recyChatAdapter.notifyDataSetChanged();
+                    break;
+
+                case 106:
+                    String path2= (String) msg.obj;
+
+                    AliyunUtils.getInstance().download("baweitest6",path2,"/sdcard/Pictures/"+path2);
+                    Log.i("audioType","下载的路径--->"+path2);
+                    Log.i("audioType","下载的保存的路径--->"+"/sdcard/Pictures/"+path2);
+
+                    list.add(new ChatBean(SendType.audioType,0,"/sdcard/Pictures/"+path2,null));
+                    recyChatAdapter.notifyDataSetChanged();
+                    break;
+
+                case 107:
+                    String img_url= (String) msg.obj;
+                    Log.i("videoPaht","107"+img_url);
+                    list.add(new ChatBean(SendType.imgType,1,img_url,null));
+                    recyChatAdapter.notifyDataSetChanged();
+                    break;
+
+                case 108:
+                    String videoPaht= (String) msg.obj;
+                    Log.i("videoPathsss",videoPaht);
+                    list.add(new ChatBean(SendType.imgType,0,videoPaht,null));
+                    recyChatAdapter.notifyDataSetChanged();
                     break;
             }
         }
@@ -114,12 +169,36 @@ public class ChatActivity extends AppCompatActivity {
         chat_edi_msh=findViewById(R.id.chat_edi_msg);
         chat_img_pic=findViewById(R.id.chat_img_pic);
         chat_img_yu=findViewById(R.id.chat_img_yu);
+        chat_img_zao=findViewById(R.id.chat_img_zao);
+        chat_img_face=findViewById(R.id.chat_img_face);
+        gridView=findViewById(R.id.chat_grid);
+        chat_img_gps=findViewById(R.id.chat_img_gps);
+
         voiceRecorderView=findViewById(R.id.voice_recorder);
 
-
-
-
         final PopupWindow popupWindow = new PopupWindow(this);
+
+        gridList.add("\uD83D\uDE00");
+        gridList.add("\uD83D\uDE03");
+        gridList.add("\uD83D\uDE05");
+        gridList.add("\uD83D\uDE07");
+        gridList.add("\uD83D\uDE0D");
+        gridList.add("\uD83D\uDE18");
+        gridList.add("\uD83D\uDE12");
+        gridList.add("\uD83D\uDE34");
+        gridList.add("\uD83D\uDE2D");
+        gridList.add("\uD83D\uDE21");
+        gridList.add("\uD83D\uDE08");
+        gridList.add("\uD83D\uDE4A");
+        gridList.add("\uD83D\uDE36");
+        gridList.add("\uD83D\uDE33");
+        gridList.add("\uD83D\uDE30");
+        gridList.add("\uD83D\uDE16");
+        gridList.add("\uD83D\uDC79");
+        gridList.add("\uD83D\uDC9D");
+
+        chatGridAdapter=new ChatGridAdapter(ChatActivity.this,gridList);
+        gridView.setAdapter(chatGridAdapter);
 
         View inflate = LayoutInflater.from(this).inflate(R.layout.microphone, null);
         mic_img=inflate.findViewById(R.id.mic_img);
@@ -128,8 +207,13 @@ public class ChatActivity extends AppCompatActivity {
         popupWindow.setWidth(200);
         popupWindow.setWidth(200);
 
+        final Intent intent = getIntent();
+        mycode = intent.getStringExtra("mycode");
+        myname = intent.getStringExtra("myname");
+        fricode = intent.getStringExtra("fricode");
+        friname = intent.getStringExtra("friname");
 
-        audioRecoderUtils=new AudioRecoderUtils();
+        audioRecoderUtils=new AudioRecoderUtils(mycode);
         audioRecoderUtils.setOnAudioStatusUpdateListener(new AudioRecoderUtils.OnAudioStatusUpdateListener() {
             @Override
             public void onUpdate(double db, long time) {
@@ -144,14 +228,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
-        Intent intent = getIntent();
-        mycode = intent.getStringExtra("mycode");
-        myname = intent.getStringExtra("myname");
-         fricode = intent.getStringExtra("fricode");
-         friname = intent.getStringExtra("friname");
-
-        fileName= Environment.getExternalStorageDirectory().getAbsolutePath()+"/soundrecord/amrsend.amr";
+//        fileName= Environment.getExternalStorageDirectory().getAbsolutePath()+"/soundrecord/amrsend.amr";
 
         new Thread(new Runnable() {
             @Override
@@ -173,13 +250,26 @@ public class ChatActivity extends AppCompatActivity {
 
                         String msg = msgEntity.getMsg();
 
-                        if(msg.contains(".jpg")){
+                        if(msg.contains("video")){
+                            Message obtain = Message.obtain();
+                            obtain.what=108;
+                            obtain.obj=msgEntity.getMsg();
+                            handler.sendMessage(obtain);
+                            Log.i("videoPathsss",msgEntity.getMsg());
+                        }else if(msg.contains(".mp3")){
+                            Message obtain = Message.obtain();
+                            obtain.what=106;
+                            obtain.obj=msgEntity.getMsg();
+                            handler.sendMessage(obtain);
+                            Log.i("audioType","接受的信息--->"+msgEntity.getMsg());
+                        }else if(msg.contains(".jpg")){
                             Message obtain = Message.obtain();
                             obtain.what=104;
                             Bundle bundle = new Bundle();
                             bundle.putString("get_pic",msg);
                             obtain.obj=bundle;
                             handler.sendMessage(obtain);
+                            Log.i("pic_img",msg);
                         }else {
                             Message obtain = Message.obtain();
                             obtain.what=102;
@@ -206,6 +296,113 @@ public class ChatActivity extends AppCompatActivity {
         recyChatAdapter=new RecyChatAdapter(this,list);
         recyclerView.setAdapter(recyChatAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        //adapter点击事件
+
+        recyChatAdapter.getClick(new CallBackOnclick() {
+            @Override
+            public void getOnclick(View view, int position) {
+
+                if (view.getId() == R.id.chat_recy_img_left_yu) {
+
+                    String msg = list.get(position).getMsg();
+                    Log.i("msgggggg",msg);
+                    try {
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(msg);
+                        mediaPlayer.prepareAsync();
+                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mediaPlayer) {
+                                if(mediaPlayer.isPlaying()){
+                                    mediaPlayer.pause();
+                                }else {
+                                    mediaPlayer.start();
+                                }
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (view.getId()==R.id.chat_recy_img_right_yu){
+                    String msg = list.get(position).getMsg();
+                    Log.i("msgggggg",msg);
+                    try {
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(msg);
+                        mediaPlayer.prepareAsync();
+                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mediaPlayer) {
+
+                                if(mediaPlayer.isPlaying()){
+                                    mediaPlayer.pause();
+                                }else {
+                                    mediaPlayer.start();
+                                }
+
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(view.getId()==R.id.chat_recy_img_left_pic){
+                    Toast.makeText(ChatActivity.this, "left视屏", Toast.LENGTH_SHORT).show();
+                    String msg = list.get(position).getMsg();
+                    Intent intent1 = new Intent(ChatActivity.this, StartAudioActivity.class);
+                    intent1.putExtra("paths",msg);
+                    startActivity(intent1);
+                }
+
+                if(view.getId()==R.id.chat_recy_img_right_pic){
+                    Toast.makeText(ChatActivity.this, "right视屏", Toast.LENGTH_SHORT).show();
+                    String msg = list.get(position).getMsg();
+                    Intent intent1 = new Intent(ChatActivity.this, StartAudioActivity.class);
+                    intent1.putExtra("paths",msg);
+                    startActivity(intent1);
+                }
+            }
+        });
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                chat_edi_msh.append(gridList.get(i));
+            }
+        });
+
+
+        chat_img_gps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent = new Intent(ChatActivity.this,ChatMapActivity.class);
+                startActivityForResult(mapIntent,1111);
+
+            }
+        });
+
+
+        chat_img_zao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);//设置频道
+                startActivityForResult(intent,VIDEO_CODE);
+            }
+        });
+
+
+        chat_img_face.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    gridView.setVisibility(View.VISIBLE);
+            }
+        });
 
 
 
@@ -239,58 +436,31 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-      chat_img_yu.setOnTouchListener(new View.OnTouchListener() {
-          @Override
-          public boolean onTouch(View view, MotionEvent motionEvent) {
-//              switch (motionEvent.getAction()){
-//                  case MotionEvent.ACTION_DOWN:
-//                      popupWindow.showAtLocation(recyclerView,Gravity.CENTER,0,0);
-//                      voiceRecorderView.setVisibility(View.VISIBLE);
-//                      audioRecoderUtils.startRecord();
-//                      break;
-//                  case MotionEvent.ACTION_UP:
-//                      audioRecoderUtils.stopRecord();        //结束录音（保存录音文件）
-//                      voiceRecorderView.setVisibility(View.GONE);
-//                      popupWindow.dismiss();
-////                    XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,picturePath);
-//                      break;
-//              }
-              fileName=mycode+".mp3";
-              AliyunUtils.getInstance().upload("baweitest6/img",fileName,);
-              return true;
-          }
-      });
+        chat_img_yu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, final MotionEvent motionEvent) {
+                return voiceRecorderView.onPressToSpeakBtnTouch(view, motionEvent, new VoiceRecorderView.EaseVoiceRecorderCallback() {
+                    @Override
+                    public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
+                            String fileName =mycode+System.currentTimeMillis()+".mp3";
+                            Log.i("yu",voiceFilePath);
+                        AliyunUtils.getInstance().upload("baweitest6",fileName,voiceFilePath);
+                        XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,fileName);
 
-//        chat_img_yu.setOnTouchListener((v, event) -> ease_voice.onPressToSpeakBtnTouch(v, event, (voiceFilePath, voiceTimeLength) -> {
-//            String fileName = System.currentTimeMillis()+".mp3";
-//            String remotePath = "http://baweitest6.oss-cn-beijing.aliyuncs.com/"+fileName;
-//            AliyunUtils.getInstance().upload(fileName, voiceFilePath, new OSSCompletedCallback() {
-//                @Override
-//                public void onSuccess(OSSRequest request, OSSResult result) {
-//                    msgManager.sendSingleMessage(chat,remotePath);
-//                }
-//
-//                @Override
-//                public void onFailure(OSSRequest request, ClientException clientException, ServiceException serviceException) {
-//                    dataList.get(dataList.size()-1).setError(View.VISIBLE);
-//                    dataList.get(dataList.size()-1).setSuccess(View.INVISIBLE);
-//                    chatAdapter.notifyDataSetChanged();
-//                }
-//            });
-//            MsgEntity msgEntity = new MsgEntity(MapChatApp.currentUser.getUsername() + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(),
-//                    chatUser.getUsername() + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(),
-//                    remotePath,
-//                    MsgEntity.AUDIO,
-//                    View.VISIBLE,
-//                    View.INVISIBLE,
-//                    MapChatApp.currentUser.getHeaderimg(),
-//                    System.currentTimeMillis(),
-//                    null);
-//            dataList.add(msgEntity);
-//            chatAdapter.notifyDataSetChanged();
-//            mRecycler.scrollToPosition(dataList.size()-1);
-//            DaoUtils.getInstance().insertMsg(msgEntity);
-//        }));
+                        Message obtain = Message.obtain();
+                        obtain.what=105;
+                        obtain.obj="http://baweitest6.oss-cn-beijing.aliyuncs.com/"+fileName;
+                        handler.sendMessage(obtain);
+
+                        Log.i("audioType","上传路径:--->"+voiceFilePath);
+                        Log.i("audioType","上传保存的路径:--->"+fileName);
+                        Log.i("audioType","加载路径:--->"+"http://baweitest6.oss-cn-beijing.aliyuncs.com"+fileName);
+                    }
+                });
+            }
+        });
+
+
     }
 
     @Override
@@ -298,8 +468,11 @@ public class ChatActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PictureSelector.SELECT_REQUEST_CODE) {
             if (data != null) {
+                //图片地址
                 final String picturePath = data.getStringExtra(PictureSelector.PICTURE_PATH);
-                Log.i("chatAAAA",picturePath);
+                //上传名称
+                final String updateName=System.currentTimeMillis()+"ghy.jpg";
+                Log.i("img_picturePath",picturePath);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -309,20 +482,48 @@ public class ChatActivity extends AppCompatActivity {
                         bundle.putString("send_img",picturePath);
                         obtain.obj=bundle;
                         handler.sendMessage(obtain);
-                        AliyunUtils.getInstance().upload("baweitest6/img","up.jpg",picturePath);
-                        XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,picturePath);
+                        AliyunUtils.getInstance().upload("baweitest6",updateName,picturePath);
+                        XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,updateName);
+
                     }
                 }).start();
 
-//                mIvImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
-                /*如果使用 Glide 加载图片，则需要禁止 Glide 从缓存中加载，因为裁剪后保存的图片地址是相同的*/
-//                RequestOptions requestOptions = RequestOptions
-//                        .circleCropTransform()
-//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                        .skipMemoryCache(true);
-//                Glide.with(this).load(picturePath).apply(requestOptions).into(mIvImage);
             }
+        }
+
+        if(requestCode == VIDEO_CODE && resultCode == Activity.RESULT_OK){
+            final Uri uri = data.getData();//视频uri路径
+            final String s = uri.toString();
+            Log.i("videoPaht","in"+uri);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        VideoProcessor.processor(ChatActivity.this)
+                                .input(s)
+                                .output(s)
+                                //以下参数全部为可选
+                                .outWidth(80)
+                                .outHeight(80)
+                                .process();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    AliyunUtils.getInstance().upload("baweitest6",mycode+System.currentTimeMillis()+".jpg",s);
+                    XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,s);
+                    Message obtain = Message.obtain();
+                    obtain.what=107;
+                    obtain.obj=s;
+                    handler.sendMessage(obtain);
+                }
+            }).start();
+
+        }
+
+        if(requestCode==1111){
+
         }
     }
 

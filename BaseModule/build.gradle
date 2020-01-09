@@ -69,9 +69,9 @@ dependencies {
 
     api "com.ilike:voicerecorder:$voicerecorder_version"
 
+    api "com.shuyu:GSYVideoPlayer:$GSYVideoPlayer_version"
 
-
-
+    api "com.github.yellowcath:VideoProcessor:$VideoProcessor_version"
 
     implementation 'com.amap.api:search:latest.integration'
     //搜索

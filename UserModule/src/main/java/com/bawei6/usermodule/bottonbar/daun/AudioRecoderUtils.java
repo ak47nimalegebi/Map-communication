@@ -9,27 +9,14 @@ import java.io.IOException;
 
 public class AudioRecoderUtils{
     //文件路径
-
     private String filePath;
 
     //文件夹路径
-
     private String FolderPath;
-
-
-
     private MediaRecorder mMediaRecorder;
-
     private final String TAG = "fan";
-
     public static final int MAX_LENGTH = 1000 * 60 * 10;// 最大录音时长1000*60*10;
-
-
-
     private OnAudioStatusUpdateListener audioStatusUpdateListener;
-
-
-
     /**
 
      * 文件存储默认sdcard/record
@@ -37,14 +24,11 @@ public class AudioRecoderUtils{
      */
 
     public AudioRecoderUtils(){
-
-
-
         //默认保存路径为/sdcard/record/下
-
         this(Environment.getExternalStorageDirectory()+"/record/");
-
     }
+
+
 
 
 
@@ -69,13 +53,6 @@ public class AudioRecoderUtils{
     private long startTime;
 
     private long endTime;
-
-
-
-
-
-
-
     /**
 
      * 开始录音 使用amr格式

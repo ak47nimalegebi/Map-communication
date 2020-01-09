@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bawei6.usermodule">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application>
-        <activity android:name=".bottonbar.daun.ChatActivity"></activity>
+        <activity android:name=".bottonbar.daun.ChatMapActivity"></activity>
+        <activity android:name=".bean.StartAudioActivity" />
+        <activity android:name=".bottonbar.daun.ChatActivity" />
         <activity android:name=".bottonbar.lianxiren.AddLianxirenActivity" />
         <activity android:name=".bottonbar.lianxiren.AddFriends" />
         <activity android:name=".bottonbar.FriendsActivity" />

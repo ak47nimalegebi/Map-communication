@@ -21,6 +21,25 @@
         android:layout_toRightOf="@id/aaaaaaaaaaaa"/>
 
 
+    <ImageView
+        android:id="@+id/chat_recy_img_left_yu"
+        android:layout_centerVertical="true"
+        android:layout_width="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_height="80dp"
+        android:src="@drawable/yuyintiao"
+        android:layout_toRightOf="@id/aaaaaaaaaaaa"/>
+
+
+<!--<VideoView-->
+<!--    android:id="@+id/chat_recy_left_vv"-->
+<!--    android:layout_width="160dp"-->
+<!--    android:layout_centerVertical="true"-->
+<!--    android:layout_marginLeft="20dp"-->
+<!--    android:layout_height="160dp"-->
+<!--    android:layout_toRightOf="@id/aaaaaaaaaaaa"-->
+<!--    />-->
+
 
     <TextView
         android:layout_centerVertical="true"

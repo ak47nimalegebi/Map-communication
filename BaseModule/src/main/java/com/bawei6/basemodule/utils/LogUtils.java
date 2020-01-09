@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class LogUtils {
 
-    public static String TAG="AK47";
+    public static String TAG="AliyunAK47";
 
     public static void i(String ak){
         Log.i(TAG,ak);

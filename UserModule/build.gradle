@@ -54,15 +54,17 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.github.bumptech.glide:glide:4.5.0'
-    implementation 'com.amap.api:search:latest.integration'
-    //搜索
-    implementation 'com.amap.api:navi-3dmap:latest.integration'
-    //3d导航
-    implementation 'com.google.android.material:material:1.0.0'
-
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 
     implementation project(path: ':CommonLibrary')
     implementation project(path: ':XmppLibrary')
     implementation project(path: ':BaseModule')
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
+
+
+    implementation 'com.amap.api:search:latest.integration'
+    //搜索
+    implementation 'com.amap.api:navi-3dmap:latest.integration'
+    implementation 'com.amap.api:location:latest.integration'
 }
