@@ -469,7 +469,7 @@ public class XmppManager {
             @Override
             public void newIncomingMessage(EntityBareJid from, Message message, Chat chat) {
                 if (message!=null&&!TextUtils.isEmpty(message.getBody())){
-                    LogUtils.d("from:"+message.getFrom()+"  to:"+message.getTo()+" message body -> "+message.getBody());
+                    LogUtils.d("from:"+message.getFrom()+"  tsao:\"+message.getTo()+\" mesge body -> "+message.getBody());
                     MsgEntity msgEntity=new MsgEntity();
                     String ff=message.getFrom().asEntityBareJidIfPossible().toString();
                     msgEntity.setFrom(ff.substring(0,ff.lastIndexOf("@")));

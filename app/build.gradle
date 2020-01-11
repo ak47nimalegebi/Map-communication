@@ -24,7 +24,6 @@ android {
         }
 
 
-
     }
 
     compileOptions {
@@ -50,8 +49,10 @@ dependencies {
     //定位
 
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    implementation project(path: ':CommonLibrary')
+    implementation project(path: ':XmppLibrary')
 
-    if(isUserModule.toBoolean()){
+    if (isUserModule.toBoolean()) {
         implementation project(path: ':UserModule')
     }
 

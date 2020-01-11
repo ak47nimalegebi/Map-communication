@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawei6.basemodule.basemvp.BaseContract;
 import com.bawei6.basemodule.basemvp.Presenter;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.ScoureBean;
 import com.bawei6.basemodule.bean.UserFriBean;
@@ -94,13 +97,38 @@ public class UserLianFriendsFragment extends Fragment implements BaseContract.Ba
                 String friCode = list.get(position).getUsercode();
                 String username = list.get(position).getUsername();
                 Intent intent = new Intent(getContext(), ChatActivity.class);
-                intent.putExtra("mycode",userCode);
-                intent.putExtra("myname",userName);
-                intent.putExtra("fricode",friCode);
-                intent.putExtra("friname",username);
+                intent.putExtra("userlianfralogcode",userCode);
+                intent.putExtra("userlianfralogname",userName);
+                intent.putExtra("userlianfrafricode",friCode);
+                intent.putExtra("userlianfrafriname",username);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void showGrouption(Boolean flag) {
+
+    }
+
+    @Override
+    public void showFindGroup(List<FindGroupBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showAddGroupResult(Boolean flag) {
+
+    }
+
+    @Override
+    public void showFindGroupName(List<FindGroupNameBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showMyGroup(List<GetMyGroupBean.DataBean> list) {
+
     }
 
     @Override

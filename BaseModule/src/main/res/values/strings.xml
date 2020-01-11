@@ -3,5 +3,7 @@
     <string name="app_cust_title">  您距离小明还有3km</string>
     <string name="app_normal">联系人</string>
     <string name="app_addFriends">添加</string>
+    <string name="app_newgroup">创建群</string>
+
 
 </resources>

@@ -1,13 +1,11 @@
 package com.bawei6.usermodule.bottonbar.daun;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,16 +17,20 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawei6.basemodule.AliyunUtils;
+import com.bawei6.common.LogUtils;
+import com.bawei6.immodule.entity.BaseMsg;
+import com.bawei6.immodule.entity.MsgType;
+import com.bawei6.immodule.msg.MsgManager;
+import com.bawei6.immodule.notify.IObserver;
+import com.bawei6.immodule.notify.NotifyManager;
 import com.bawei6.usermodule.CallBackOnclick;
 import com.bawei6.usermodule.R;
 import com.bawei6.usermodule.adapter.ChatGridAdapter;
@@ -36,8 +38,6 @@ import com.bawei6.usermodule.adapter.RecyChatAdapter;
 import com.bawei6.usermodule.bean.ChatBean;
 import com.bawei6.usermodule.bean.StartAudioActivity;
 import com.baweigame.xmpplibrary.XmppManager;
-import com.baweigame.xmpplibrary.callback.IMsgCallback;
-import com.baweigame.xmpplibrary.entity.MsgEntity;
 import com.hw.videoprocessor.VideoProcessor;
 import com.ilike.voicerecorder.widget.VoiceRecorderView;
 import com.wildma.pictureselector.PictureSelector;
@@ -69,95 +69,19 @@ public class ChatActivity extends AppCompatActivity {
     String fricode;
     String friname;
 
-    private String outPath="/sdcard/Pictures/"+mycode+System.currentTimeMillis()+".mp4";
-
-
     private MediaPlayer mediaPlayer=new MediaPlayer();
-
-    private ImageView mic_img;
-    private TextView mic_tv;
-
-    private String imgType="/img/";
-    private String audioType="/audio/";
-    private String videoType="/video/";
-
-
-
 
     private AudioRecoderUtils audioRecoderUtils;
 
+    private Handler handler=new Handler();
 
-    @SuppressLint("HandlerLeak")
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
+    //图片上传地址
+    private String imgUpdateName;
+    //语言上传地址
+    private String yuUpdataName;
+    //视屏上传地址
+    private String videoUpdataName;
 
-            switch (msg.what){
-                case 101:
-                    Bundle bundle= (Bundle) msg.obj;
-                    String send_msg = bundle.getString("send_msg");
-                    list.add(new ChatBean(SendType.textType,1,send_msg,null));
-                    recyChatAdapter.notifyDataSetChanged();
-                    break;
-                case 102:
-
-                    Bundle bundle2= (Bundle) msg.obj;
-                    String get_msg = bundle2.getString("get_msg");
-                    list.add(new ChatBean(SendType.textType,0,get_msg,null));
-                    recyChatAdapter.notifyDataSetChanged();
-
-                    break;
-
-                case 103:
-                    Bundle bundle3= (Bundle) msg.obj;
-                    String send_img = bundle3.getString("send_img");
-                    list.add(new ChatBean(SendType.imgType,1,send_img,null));
-                    recyChatAdapter.notifyDataSetChanged();
-                    break;
-
-                case 104:
-                    Bundle bundle4= (Bundle) msg.obj;
-                    String get_pic = bundle4.getString("get_pic");
-                    AliyunUtils.getInstance().download("baweitest6",get_pic,"/sdcard/Pictures/"+get_pic+".jpg");
-                    list.add(new ChatBean(SendType.imgType,0,"/sdcard/Pictures/"+get_pic+".jpg",null));
-                    recyChatAdapter.notifyDataSetChanged();
-                    break;
-
-                case 105:
-                    String path= (String) msg.obj;
-                    Log.i("audioType","handler接受:--->"+path);
-                    list.add(new ChatBean(SendType.audioType,1,path,null));
-                    recyChatAdapter.notifyDataSetChanged();
-                    break;
-
-                case 106:
-                    String path2= (String) msg.obj;
-
-                    AliyunUtils.getInstance().download("baweitest6",path2,"/sdcard/Pictures/"+path2);
-                    Log.i("audioType","下载的路径--->"+path2);
-                    Log.i("audioType","下载的保存的路径--->"+"/sdcard/Pictures/"+path2);
-
-                    list.add(new ChatBean(SendType.audioType,0,"/sdcard/Pictures/"+path2,null));
-                    recyChatAdapter.notifyDataSetChanged();
-                    break;
-
-                case 107:
-                    String img_url= (String) msg.obj;
-                    Log.i("videoPaht","107"+img_url);
-                    list.add(new ChatBean(SendType.imgType,1,img_url,null));
-                    recyChatAdapter.notifyDataSetChanged();
-                    break;
-
-                case 108:
-                    String videoPaht= (String) msg.obj;
-                    Log.i("videoPathsss",videoPaht);
-                    list.add(new ChatBean(SendType.imgType,0,videoPaht,null));
-                    recyChatAdapter.notifyDataSetChanged();
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +97,8 @@ public class ChatActivity extends AppCompatActivity {
         chat_img_face=findViewById(R.id.chat_img_face);
         gridView=findViewById(R.id.chat_grid);
         chat_img_gps=findViewById(R.id.chat_img_gps);
+
+
 
         voiceRecorderView=findViewById(R.id.voice_recorder);
 
@@ -201,102 +127,80 @@ public class ChatActivity extends AppCompatActivity {
         gridView.setAdapter(chatGridAdapter);
 
         View inflate = LayoutInflater.from(this).inflate(R.layout.microphone, null);
-        mic_img=inflate.findViewById(R.id.mic_img);
-        mic_tv=inflate.findViewById(R.id.mic_tv);
         popupWindow.setContentView(inflate);
         popupWindow.setWidth(200);
         popupWindow.setWidth(200);
 
         final Intent intent = getIntent();
-        mycode = intent.getStringExtra("mycode");
-        myname = intent.getStringExtra("myname");
-        fricode = intent.getStringExtra("fricode");
-        friname = intent.getStringExtra("friname");
+        mycode = intent.getStringExtra("userlianfralogcode");
+        myname = intent.getStringExtra("userlianfralogname");
+        fricode = intent.getStringExtra("userlianfrafricode");
+        friname = intent.getStringExtra("userlianfrafriname");
+
+        LogUtils.i("chat---->"+mycode);
+        LogUtils.i("chat---->"+myname);
+        LogUtils.i("chat---->"+fricode);
+        LogUtils.i("chat---->"+friname);
+
+        imgUpdateName=mycode+System.currentTimeMillis()+"ghy.jpg";
+        yuUpdataName =mycode+System.currentTimeMillis()+".mp3";
+        videoUpdataName=mycode+System.currentTimeMillis()+".mp4";
+
 
         audioRecoderUtils=new AudioRecoderUtils(mycode);
-        audioRecoderUtils.setOnAudioStatusUpdateListener(new AudioRecoderUtils.OnAudioStatusUpdateListener() {
-            @Override
-            public void onUpdate(double db, long time) {
-//                mic_img.getDrawable().setLevel((int) (3000 + 6000 * db / 100));
-//                mic_tv.setText(time+"");
-            }
 
-            @Override
-            public void onStop(String filePath) {
-//                Toast.makeText(ChatActivity.this, "录音保存在：" + filePath, Toast.LENGTH_SHORT).show();
-//                mic_tv.setText(0);
-            }
-        });
-
-//        fileName= Environment.getExternalStorageDirectory().getAbsolutePath()+"/soundrecord/amrsend.amr";
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 AbstractXMPPConnection connection = XmppManager.getInstance().getConnection();
                 Boolean aBoolean = XmppManager.getInstance().checkConnect();
-                Log.i("chatAAAA",aBoolean+"");
             }
         }).start();
 
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                XmppManager.getInstance().addMessageListener(new IMsgCallback() {
-                    @Override
-                    public void Success(MsgEntity msgEntity) {
-                        MsgEntity.MsgType msgType = msgEntity.getMsgType();
-
-                        String msg = msgEntity.getMsg();
-
-                        if(msg.contains("video")){
-                            Message obtain = Message.obtain();
-                            obtain.what=108;
-                            obtain.obj=msgEntity.getMsg();
-                            handler.sendMessage(obtain);
-                            Log.i("videoPathsss",msgEntity.getMsg());
-                        }else if(msg.contains(".mp3")){
-                            Message obtain = Message.obtain();
-                            obtain.what=106;
-                            obtain.obj=msgEntity.getMsg();
-                            handler.sendMessage(obtain);
-                            Log.i("audioType","接受的信息--->"+msgEntity.getMsg());
-                        }else if(msg.contains(".jpg")){
-                            Message obtain = Message.obtain();
-                            obtain.what=104;
-                            Bundle bundle = new Bundle();
-                            bundle.putString("get_pic",msg);
-                            obtain.obj=bundle;
-                            handler.sendMessage(obtain);
-                            Log.i("pic_img",msg);
-                        }else {
-                            Message obtain = Message.obtain();
-                            obtain.what=102;
-                            Bundle bundle = new Bundle();
-                            bundle.putString("get_msg",msg);
-                            obtain.obj=bundle;
-                            handler.sendMessage(obtain);
-                        }
-
-                        Log.i("chatAAAA",msg);
-                        Log.i("chatAAAA",msgType+"");
-                    }
-
-                    @Override
-                    public void Failed(Throwable throwable) {
-                        Log.i("chatAAAA",throwable.getMessage());
-                    }
-                });
-
-            }
-        }).start();
 
 
         recyChatAdapter=new RecyChatAdapter(this,list);
         recyclerView.setAdapter(recyChatAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //监听消息的接收
+                NotifyManager.getInstance().addObserver(new IObserver() {
+                    @Override
+                    public void nodify(final BaseMsg msg) {
+
+                        LogUtils.i(msg.getMsg());
+                        LogUtils.i(msg.getMsgType()+"");
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if(msg.getMsg().contains(".jpg")){
+                                    Log.i("ResultAK47",msg.getMsg());
+                                    AliyunUtils.getInstance().download("baweitest6",msg.getMsg(),"/sdcard/Pictures/"+msg.getMsg());
+                                    list.add(new ChatBean(SendType.imgType,0,"/sdcard/Pictures/"+msg.getMsg()));
+                                    recyChatAdapter.notifyDataSetChanged();
+                                 }else if(msg.getMsg().contains(".mp3")){
+                                    Log.i("ResultAK47",msg.getMsg());
+                                    AliyunUtils.getInstance().download("baweitest6",msg.getMsg(),"/sdcaird/Pictures/"+msg.getMsg());
+                                    list.add(new ChatBean(SendType.audioType,0,"/sdcard/Pictures/"+msg.getMsg()));
+                                    recyChatAdapter.notifyDataSetChanged();
+                                  }else {
+                                    list.add(new ChatBean(SendType.textType,0,msg.getMsg()));
+                                    recyChatAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
         //adapter点击事件
 
@@ -307,7 +211,6 @@ public class ChatActivity extends AppCompatActivity {
                 if (view.getId() == R.id.chat_recy_img_left_yu) {
 
                     String msg = list.get(position).getMsg();
-                    Log.i("msgggggg",msg);
                     try {
                         mediaPlayer.reset();
                         mediaPlayer.setDataSource(msg);
@@ -329,7 +232,6 @@ public class ChatActivity extends AppCompatActivity {
 
                 if (view.getId()==R.id.chat_recy_img_right_yu){
                     String msg = list.get(position).getMsg();
-                    Log.i("msgggggg",msg);
                     try {
                         mediaPlayer.reset();
                         mediaPlayer.setDataSource(msg);
@@ -376,7 +278,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
         chat_img_gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -385,7 +286,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
 
         chat_img_zao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -396,7 +296,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
         chat_img_face.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -404,27 +303,27 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
-
         chat_btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String msg = chat_edi_msh.getText().toString();
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Message obtain = Message.obtain();
-                        obtain.what=101;
-                        Bundle bundle = new Bundle();
-                        bundle.putString("send_msg",msg);
-                        obtain.obj=bundle;
-                        handler.sendMessage(obtain);
-                        XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,msg);
-                    }
-                }).start();
+                if(msg.isEmpty()){http://59.110.191.1/img/4cd6bba4e59d47bdb94a59d69e04b69c1578708270685ghy.jpg
+                    Toast.makeText(ChatActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
+                }else {
+                    //发送消息
+                    BaseMsg baseMsg = new BaseMsg(myname, friname + jid, msg, MsgType.TXT);
+                    MsgManager.getInstance().sendMsg(baseMsg);
 
-            }
+                    //适配器更新发送的文本信息
+                    list.add(new ChatBean(SendType.textType,1,msg));
+                    recyChatAdapter.notifyDataSetChanged();
+                }
+
+                    }
+//                }).start();
+
+//            }
         });
 
         chat_img_pic.setOnClickListener(new View.OnClickListener() {
@@ -442,27 +341,16 @@ public class ChatActivity extends AppCompatActivity {
                 return voiceRecorderView.onPressToSpeakBtnTouch(view, motionEvent, new VoiceRecorderView.EaseVoiceRecorderCallback() {
                     @Override
                     public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
-                            String fileName =mycode+System.currentTimeMillis()+".mp3";
-                            Log.i("yu",voiceFilePath);
-                        AliyunUtils.getInstance().upload("baweitest6",fileName,voiceFilePath);
-                        XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,fileName);
-
-                        Message obtain = Message.obtain();
-                        obtain.what=105;
-                        obtain.obj="http://baweitest6.oss-cn-beijing.aliyuncs.com/"+fileName;
-                        handler.sendMessage(obtain);
-
-                        Log.i("audioType","上传路径:--->"+voiceFilePath);
-                        Log.i("audioType","上传保存的路径:--->"+fileName);
-                        Log.i("audioType","加载路径:--->"+"http://baweitest6.oss-cn-beijing.aliyuncs.com"+fileName);
+                        AliyunUtils.getInstance().upload("baweitest6","audio/"+yuUpdataName,voiceFilePath);
+                        BaseMsg baseMsg = new BaseMsg(myname, friname + jid, "audio/" + yuUpdataName, MsgType.AUDIO);
+                        MsgManager.getInstance().sendMsg(baseMsg);
+                        list.add(new ChatBean(SendType.audioType,1,"http://baweitest6.oss-cn-beijing.aliyuncs.com/"+"audio/"+yuUpdataName));
+                    recyChatAdapter.notifyDataSetChanged();
                     }
                 });
             }
         });
-
-
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -470,65 +358,39 @@ public class ChatActivity extends AppCompatActivity {
             if (data != null) {
                 //图片地址
                 final String picturePath = data.getStringExtra(PictureSelector.PICTURE_PATH);
-                //上传名称
-                final String updateName=System.currentTimeMillis()+"ghy.jpg";
-                Log.i("img_picturePath",picturePath);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Message obtain = Message.obtain();
-                        obtain.what=103;
-                        Bundle bundle = new Bundle();
-                        bundle.putString("send_img",picturePath);
-                        obtain.obj=bundle;
-                        handler.sendMessage(obtain);
-                        AliyunUtils.getInstance().upload("baweitest6",updateName,picturePath);
-                        XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,updateName);
 
-                    }
-                }).start();
+                AliyunUtils.getInstance().upload("baweitest6","img/"+imgUpdateName,picturePath);
+                BaseMsg baseMsg = new BaseMsg(myname, friname + jid, "img/"+imgUpdateName, MsgType.IMG);
 
+                Log.i("ResultAK47","img/"+imgUpdateName);
+
+                MsgManager.getInstance().sendMsg(baseMsg);
+                list.add(new ChatBean(SendType.imgType,1,picturePath));
+                recyChatAdapter.notifyDataSetChanged();
             }
         }
 
         if(requestCode == VIDEO_CODE && resultCode == Activity.RESULT_OK){
-            final Uri uri = data.getData();//视频uri路径
-            final String s = uri.toString();
-            Log.i("videoPaht","in"+uri);
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            Uri u = data.getData();
+            String s = u.toString();
                     try {
-                        VideoProcessor.processor(ChatActivity.this)
+                        VideoProcessor.processor(this)
                                 .input(s)
                                 .output(s)
-                                //以下参数全部为可选
                                 .outWidth(80)
                                 .outHeight(80)
                                 .process();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    AliyunUtils.getInstance().upload("baweitest6",mycode+System.currentTimeMillis()+".jpg",s);
-                    XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friname+jid,s);
-                    Message obtain = Message.obtain();
-                    obtain.what=107;
-                    obtain.obj=s;
-                    handler.sendMessage(obtain);
-                }
-            }).start();
-
+                    AliyunUtils.getInstance().upload("baweitest6","video/"+videoUpdataName,s);
+                    BaseMsg baseMsg = new BaseMsg(myname, friname + jid, "video/" + videoUpdataName, MsgType.VIDEO);
+                    Log.i("ResultAK47","audio/" + videoUpdataName);
+                    MsgManager.getInstance().sendMsg(baseMsg);
+                     list.add(new ChatBean(SendType.imgType,1,s));
+                     recyChatAdapter.notifyDataSetChanged();
         }
 
-        if(requestCode==1111){
-
-        }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-    }
 }

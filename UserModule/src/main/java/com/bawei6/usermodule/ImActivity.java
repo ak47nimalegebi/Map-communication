@@ -19,6 +19,7 @@ public class ImActivity extends AppCompatActivity {
 
     private Button btn_send,btn_add;
     private EditText edi_friend,edi_mess;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,7 @@ public class ImActivity extends AppCompatActivity {
         btn_send=findViewById(R.id.btn_send);
         edi_friend=findViewById(R.id.edi_friend);
         edi_mess=findViewById(R.id.edi_friend);
+
 
 
         XmppManager.getInstance().addMessageListener(new IMsgCallback() {

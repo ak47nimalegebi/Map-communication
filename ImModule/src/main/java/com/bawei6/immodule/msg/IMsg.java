@@ -1,4 +1,10 @@
 package com.bawei6.immodule.msg;
 
-public interface IMsg {
+import com.bawei6.immodule.entity.BaseMsg;
+
+public interface IMsg{
+
+    void sendMsg(BaseMsg msg);
+
+    void receiveMsg();
 }

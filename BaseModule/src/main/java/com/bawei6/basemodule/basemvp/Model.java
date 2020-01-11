@@ -1,6 +1,12 @@
 package com.bawei6.basemodule.basemvp;
 
 import com.bawei6.basemodule.bean.AddFriendsBean;
+import com.bawei6.basemodule.bean.AddGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBodyBean;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
 import com.bawei6.basemodule.bean.ResBean;
@@ -55,6 +61,41 @@ public class Model implements BaseContract.BaseModel {
         ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
         Observable<UserFriBean> userFriBean = apiServer.getUserFriBean(usercode);
         return userFriBean;
+    }
+
+    @Override
+    public Observable<CreateGroupBean> loadGroupBeanM(CreateGroupBodyBean createGroupBodyBean) {
+        ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
+        Observable<CreateGroupBean> createGroupBean = apiServer.getCreateGroupBean(createGroupBodyBean);
+        return createGroupBean;
+    }
+
+    @Override
+    public Observable<FindGroupBean> loadFindGroupM(String groupId) {
+        ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
+        Observable<FindGroupBean> findGroupBean = apiServer.getFindGroupBean(groupId);
+        return findGroupBean;
+    }
+
+    @Override
+    public Observable<AddGroupBean> loadAddGroupM(String groupId, String userCode) {
+        ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
+        Observable<AddGroupBean> addGroupBean = apiServer.getAddGroupBean(groupId, userCode);
+        return addGroupBean;
+    }
+
+    @Override
+    public Observable<FindGroupNameBean> loadFindGroupName(String key) {
+        ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
+        Observable<FindGroupNameBean> findGroupNameBean = apiServer.getFindGroupNameBean(key);
+        return findGroupNameBean;
+    }
+
+    @Override
+    public Observable<GetMyGroupBean> loadMyGroupBeanM(String usercode) {
+        ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
+        Observable<GetMyGroupBean> myGroupBean = apiServer.getMyGroupBean(usercode);
+        return myGroupBean;
     }
 
     @Override

@@ -121,10 +121,13 @@ public class DefaultXmppChatRoomImpl implements IXmppChatRoom {
     public MultiUserChat joinMultiUserChat(String user, String roomsName) {
         if (XmppManager.getInstance().getConnection() == null)
             return null;
+        MultiUserChat muc=null;
         try {
             // 使用XMPPConnection创建一个MultiUserChat窗口
-            MultiUserChat muc = MultiUserChatManager.getInstanceFor(XmppManager.getInstance().getConnection()).getMultiUserChat(
+
+             muc= MultiUserChatManager.getInstanceFor(XmppManager.getInstance().getConnection()).getMultiUserChat(
                     JidCreate.entityBareFrom(roomsName + "@conference." + XmppManager.getInstance().getConnection().getServiceName()));
+
 
             // 用户加入聊天室
             muc.join(Resourcepart.from(user));

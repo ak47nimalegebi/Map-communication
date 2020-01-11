@@ -21,5 +21,6 @@ public class App extends Application {
         ARouter.openDebug();
         ARouter.init(this);
         AliyunUtils.getInstance().init(this);
+
     }
 }

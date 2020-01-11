@@ -1,4 +1,4 @@
-package com.bawei6.usermodule.addgroupfragment;
+package com.bawei6.usermodule.bottonbar.lianxiren.addgroupfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -3,7 +3,6 @@ package com.bawei6.usermodule.bottonbar.lianxiren;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +12,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bawei6.basemodule.sqlite.MySqlite;
 import com.bawei6.basemodule.titlebar.NormalTitBar;
+import com.bawei6.common.LogUtils;
+import com.bawei6.immodule.ListenerService;
 import com.bawei6.usermodule.R;
 import com.bawei6.usermodule.adapter.UserLianPagerAdapter;
 import com.bawei6.usermodule.bottonbar.lianxiren.user_lian_fragment.UserLianChatFragment;
@@ -52,12 +53,15 @@ public class LianxirenActivity extends AppCompatActivity {
 //        mySqlite=new MySqlite(this,names+".db",null,0);
 //        SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
 
+        Intent intent1 = new Intent(LianxirenActivity.this, ListenerService.class);
+        startService(intent1);
 
         final Intent intent = getIntent();
-        final String code = intent.getStringExtra("codde");
-        final String  myName = intent.getStringExtra("names");
-        Log.i("AK47",code);
-        Log.i("AK47",myName);
+        final String userfragcode = intent.getStringExtra("userfragcode");
+        final String  userfragname = intent.getStringExtra("userfragname");
+
+        LogUtils.i("lianxiren------>"+userfragcode);
+        LogUtils.i("lianxiren------>"+userfragname);
 
 
 
@@ -69,8 +73,8 @@ public class LianxirenActivity extends AppCompatActivity {
 
 
         user_lian_chat=new UserLianChatFragment();
-        user_lian_friends=new UserLianFriendsFragment(myName,code);
-        user_lian_group=new UserLianGroupFragment();
+        user_lian_friends=new UserLianFriendsFragment(userfragname,userfragcode);
+        user_lian_group=new UserLianGroupFragment(userfragcode);
         titleList.add("好友");
         titleList.add("分组");
         titleList.add("群聊");
@@ -89,7 +93,8 @@ public class LianxirenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(LianxirenActivity.this, AddFriends.class);
-                intent1.putExtra("mycode",code);
+                intent1.putExtra("liancode",userfragcode);
+                intent1.putExtra("lianname",userfragname);
                 startActivity(intent1);
             }
         });

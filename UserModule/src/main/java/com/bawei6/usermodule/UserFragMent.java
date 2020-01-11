@@ -17,10 +17,11 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.bawei6.basemodule.titlebar.BottomActionView;
+import com.bawei6.common.LogUtils;
 import com.bawei6.usermodule.adapter.RecyHuoAdapter;
 import com.bawei6.usermodule.bean.MyHuoding;
 import com.bawei6.usermodule.bottonbar.daun.DuanxinActivity;
-import com.bawei6.usermodule.log.LogActivity;
+import com.bawei6.usermodule.bottonbar.lianxiren.LianxirenActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,20 +38,26 @@ public class UserFragMent extends Fragment {
 
     private ImageView img_log;
 
+    private String logcode,logname;
+    public UserFragMent(String logcode, String logname) {
+        this.logcode=logcode;
+        this.logname=logname;
+    }
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = getLayoutInflater().inflate(R.layout.fra, null);
-
-
-
+        final View inflate = getLayoutInflater().inflate(R.layout.fra, null);
 
        mMapView=inflate.findViewById(R.id.usermodule_map);
        recyclerViewp=inflate.findViewById(R.id.recy_huo);
        img_log=inflate.findViewById(R.id.img_group1);
        user_bottomBar=inflate.findViewById(R.id.user_bottombar);
 
+        LogUtils.i("UserFrag----->"+logcode);
+        LogUtils.i("UserFrag----->"+logname);
 
 
 //        Resources resources = getContext().getResources();
@@ -61,7 +68,10 @@ public class UserFragMent extends Fragment {
         user_bottomBar.Onclick1(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              startActivity(new Intent(getContext(),LogActivity.class));
+                Intent intent = new Intent(getContext(), LianxirenActivity.class);
+                intent.putExtra("userfragcode",logcode);
+                intent.putExtra("userfragname",logname);
+                startActivity(intent);
             }
         });
 
@@ -126,12 +136,12 @@ public class UserFragMent extends Fragment {
         recyclerViewp.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        img_log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), LogActivity.class));
-            }
-        });
+//        img_log.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getContext(), Lian.class));
+//            }
+//        });
 
 
         return inflate;

@@ -1,6 +1,12 @@
 package com.bawei6.basemodule.basemvp;
 
 import com.bawei6.basemodule.bean.AddFriendsBean;
+import com.bawei6.basemodule.bean.AddGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBodyBean;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
 import com.bawei6.basemodule.bean.ResBean;
@@ -11,6 +17,7 @@ import com.bawei6.basemodule.bean.UpdateBodyBean;
 import com.bawei6.basemodule.bean.UserFriBean;
 import com.bawei6.basemodule.utils.BaseObserable;
 import com.bawei6.basemodule.utils.BaseObserver;
+import com.bawei6.basemodule.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +46,7 @@ public class Presenter extends BaseContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                LogUtils.e("注册"+e.getMessage());
             }
         },view.getowner());
     }
@@ -59,6 +67,7 @@ public class Presenter extends BaseContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                LogUtils.e("登陆"+e.getMessage());
             }
         },view.getowner());
     }
@@ -77,6 +86,7 @@ public class Presenter extends BaseContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                LogUtils.e("修改密码"+e.getMessage());
             }
         },view.getowner());
     }
@@ -95,6 +105,7 @@ public class Presenter extends BaseContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                LogUtils.i("搜索好友"+e.getMessage());
             }
         },view.getowner());
     }
@@ -113,8 +124,10 @@ public class Presenter extends BaseContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                LogUtils.i("loadAddFri"+e.getMessage());
             }
         },view.getowner());
+
     }
 
     @Override
@@ -131,6 +144,106 @@ public class Presenter extends BaseContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                LogUtils.i("loadUserFirip"+e.getMessage());
+            }
+        },view.getowner());
+    }
+
+    @Override
+    public void loadGroupBeanP(CreateGroupBodyBean createGroupBodyBean) {
+        Observable<CreateGroupBean> createGroupBeanObservable = model.loadGroupBeanM(createGroupBodyBean);
+        BaseObserable.doObserver(createGroupBeanObservable,new BaseObserver<CreateGroupBean>(){
+            @Override
+            public void onNext(CreateGroupBean createGroupBean) {
+                super.onNext(createGroupBean);
+                view.showGrouption(createGroupBean.isData());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+               LogUtils.i("创建建群"+e.getMessage());
+            }
+        },view.getowner());
+    }
+
+    @Override
+    public void loadFindGroup(String groupId) {
+        Observable<FindGroupBean> findGroupBeanObservable = model.loadFindGroupM(groupId);
+        BaseObserable.doObserver(findGroupBeanObservable,new BaseObserver<FindGroupBean>(){
+            @Override
+            public void onNext(FindGroupBean findGroupBean) {
+                super.onNext(findGroupBean);
+
+                    FindGroupBean.DataBean data = findGroupBean.getData();
+                    if(data!=null){
+                        List<FindGroupBean.DataBean> list=new ArrayList<>();
+                        list.add(data);
+                        view.showFindGroup(list);
+                    }
+
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                LogUtils.i("findGrouop---->"+e.getMessage());
+            }
+        },view.getowner());
+    }
+
+    @Override
+    public void loadAddGroupP(String grouopId, String userCode) {
+        Observable<AddGroupBean> addGroupBeanObservable = model.loadAddGroupM(grouopId, userCode);
+        BaseObserable.doObserver(addGroupBeanObservable,new BaseObserver<AddGroupBean>(){
+            @Override
+            public void onNext(AddGroupBean addGroupBean) {
+                super.onNext(addGroupBean);
+                view.showAddGroupResult(addGroupBean.isData());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                LogUtils.i(e.getMessage());
+            }
+        },view.getowner());
+    }
+
+    @Override
+    public void loadFindGroupName(String key) {
+        Observable<FindGroupNameBean> findGroupNameBeanObservable = model.loadFindGroupName(key);
+        BaseObserable.doObserver(findGroupNameBeanObservable,new BaseObserver<FindGroupNameBean>(){
+            @Override
+            public void onNext(FindGroupNameBean findGroupNameBean) {
+                super.onNext(findGroupNameBean);
+                List<FindGroupNameBean.DataBean> data = findGroupNameBean.getData();
+                view.showFindGroupName(data);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        },view.getowner());
+    }
+
+    @Override
+    public void loadgetMyGroupP(String usercode) {
+        Observable<GetMyGroupBean> getMyGroupBeanObservable = model.loadMyGroupBeanM(usercode);
+        BaseObserable.doObserver(getMyGroupBeanObservable,new BaseObserver<GetMyGroupBean>(){
+            @Override
+            public void onNext(GetMyGroupBean getMyGroupBean) {
+                super.onNext(getMyGroupBean);
+                List<GetMyGroupBean.DataBean> data = getMyGroupBean.getData();
+                view.showMyGroup(data);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                LogUtils.i(e.getMessage());
             }
         },view.getowner());
     }

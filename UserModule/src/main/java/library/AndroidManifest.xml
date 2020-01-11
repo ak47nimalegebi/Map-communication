@@ -3,8 +3,10 @@
     package="com.bawei6.usermodule">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application>
-        <activity android:name=".bottonbar.daun.ChatMapActivity"></activity>
+        <activity android:name=".NewGroupActivity"></activity>
+        <activity android:name=".bottonbar.daun.ChatMapActivity" />
         <activity android:name=".bean.StartAudioActivity" />
         <activity android:name=".bottonbar.daun.ChatActivity" />
         <activity android:name=".bottonbar.lianxiren.AddLianxirenActivity" />
@@ -16,7 +18,6 @@
         <activity android:name=".bottonbar.lianxiren.LianxirenActivity" />
         <activity android:name=".log.UpdateActivity" />
         <activity android:name=".ImActivity" />
-        <activity android:name=".log.LogActivity" />
     </application>
 
 </manifest>

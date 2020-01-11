@@ -3,7 +3,6 @@ package com.bawei6.usermodule.bottonbar.lianxiren.user_add_fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawei6.basemodule.basemvp.BaseContract;
 import com.bawei6.basemodule.basemvp.Presenter;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.ScoureBean;
 import com.bawei6.basemodule.bean.UserFriBean;
+import com.bawei6.common.LogUtils;
 import com.bawei6.usermodule.CallBackOnclick;
 import com.bawei6.usermodule.R;
 import com.bawei6.usermodule.adapter.RecySocureAdapter;
@@ -42,11 +45,11 @@ public class UserAddPeopleFragment extends Fragment implements BaseContract.Base
     private RecySocureAdapter recySocureAdapter;
     private Button btn_scour;
     private TextView tv_lianxiren,tv_mian;
-    private String userCode;
+    private String addpeocode;
     private RecyUserLianxiPhoneAdapter recyUserLianxiPhoneAdapter;
 
-    public UserAddPeopleFragment(String mycode) {
-        this.userCode=mycode;
+    public UserAddPeopleFragment(String liancode) {
+        this.addpeocode=liancode;
     }
 
     @Nullable
@@ -115,12 +118,13 @@ public class UserAddPeopleFragment extends Fragment implements BaseContract.Base
             public void getOnclick(View view, int position) {
                 String friCode = list.get(position).getUsercode();
                 String username = list.get(position).getUsername();
-                presenter.loadAddFriP(userCode,friCode);
+                presenter.loadAddFriP(addpeocode,friCode);
                 boolean b = XmppManager.getInstance().getXmppFriendManager().addFriend(username, username);
                 if(b==true){
                     Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
                 }
-                Log.i("FriCode","user"+userCode+"\n"+friCode);
+                LogUtils.i("addpeo--->"+addpeocode);
+                LogUtils.i("addpeo--->"+friCode);
 
             }
         });
@@ -136,6 +140,33 @@ public class UserAddPeopleFragment extends Fragment implements BaseContract.Base
 
     @Override
     public void showUserFri(List<UserFriBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showGrouption(Boolean flag) {
+
+    }
+
+
+
+    @Override
+    public void showFindGroup(List<FindGroupBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showAddGroupResult(Boolean flag) {
+
+    }
+
+    @Override
+    public void showFindGroupName(List<FindGroupNameBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showMyGroup(List<GetMyGroupBean.DataBean> list) {
 
     }
 

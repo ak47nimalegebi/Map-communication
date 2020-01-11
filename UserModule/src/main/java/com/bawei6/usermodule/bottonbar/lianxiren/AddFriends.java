@@ -2,13 +2,13 @@ package com.bawei6.usermodule.bottonbar.lianxiren;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bawei6.common.LogUtils;
 import com.bawei6.usermodule.R;
 import com.bawei6.usermodule.adapter.UserLianPagerAdapter;
 import com.bawei6.usermodule.bottonbar.lianxiren.user_add_fragment.UserAddGroupFragment;
@@ -41,10 +41,11 @@ public class AddFriends extends AppCompatActivity {
         viewPager=findViewById(R.id.user_add_pager);
 
         Intent intent = getIntent();
-        String mycode = intent.getStringExtra("mycode");
-        Log.i("Fricode","my"+mycode);
-        user_add_people=new UserAddPeopleFragment(mycode);
-        user_add_group=new UserAddGroupFragment(manager);
+        String liancode = intent.getStringExtra("liancode");
+        String lianname = intent.getStringExtra("lianname");
+        LogUtils.i("addFri----->"+liancode);
+        user_add_people=new UserAddPeopleFragment(liancode);
+        user_add_group=new UserAddGroupFragment(manager,liancode,lianname);
 
         titleList.add("找人");
         titleList.add("找群");

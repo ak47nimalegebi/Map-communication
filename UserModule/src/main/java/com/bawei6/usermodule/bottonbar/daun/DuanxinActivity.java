@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawei6.basemodule.basemvp.BaseContract;
 import com.bawei6.basemodule.basemvp.Presenter;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.ScoureBean;
 import com.bawei6.basemodule.bean.UserFriBean;
@@ -80,6 +83,31 @@ public class DuanxinActivity extends AppCompatActivity implements BaseContract.B
                 startActivity(new Intent(DuanxinActivity.this,ChatActivity.class));
             }
         });
+
+    }
+
+    @Override
+    public void showGrouption(Boolean msg) {
+
+    }
+
+    @Override
+    public void showFindGroup(List<FindGroupBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showAddGroupResult(Boolean flag) {
+
+    }
+
+    @Override
+    public void showFindGroupName(List<FindGroupNameBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showMyGroup(List<GetMyGroupBean.DataBean> list) {
 
     }
 

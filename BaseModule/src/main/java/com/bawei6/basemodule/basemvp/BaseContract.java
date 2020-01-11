@@ -1,6 +1,12 @@
 package com.bawei6.basemodule.basemvp;
 
 import com.bawei6.basemodule.bean.AddFriendsBean;
+import com.bawei6.basemodule.bean.AddGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBodyBean;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
 import com.bawei6.basemodule.bean.ResBean;
@@ -23,6 +29,11 @@ public interface BaseContract {
         Observable<ScoureBean> LoadScourBeanM(String userName);
         Observable<AddFriendsBean> loadAddFraM(String userCode,String friCode);
         Observable<UserFriBean> loadUserFriM(String usercode);
+        Observable<CreateGroupBean> loadGroupBeanM(CreateGroupBodyBean createGroupBodyBean);
+        Observable<FindGroupBean> loadFindGroupM(String groupId);
+        Observable<AddGroupBean> loadAddGroupM(String groupId,String userCode);
+        Observable<FindGroupNameBean> loadFindGroupName(String key);
+        Observable<GetMyGroupBean> loadMyGroupBeanM(String usercode);
     }
 
     interface BaseView extends IView{
@@ -32,6 +43,11 @@ public interface BaseContract {
         void showScourBean(List<ScoureBean.DataBean> list);
         void showAddFriResult(String msg,Boolean flag);
         void showUserFri(List<UserFriBean.DataBean> list);
+        void showGrouption(Boolean flag);
+        void showFindGroup(List<FindGroupBean.DataBean> list);
+        void showAddGroupResult(Boolean flag);
+        void showFindGroupName(List<FindGroupNameBean.DataBean> list);
+        void showMyGroup(List<GetMyGroupBean.DataBean> list);
     }
 
 
@@ -42,5 +58,10 @@ public interface BaseContract {
         abstract public void LoadSourBeanP(String userName);
         abstract public void loadAddFriP(String userCode,String friCode);
         abstract public void loadUserFriP(String usercode);
+        abstract public void loadGroupBeanP(CreateGroupBodyBean createGroupBodyBean);
+        abstract public void loadFindGroup(String groupId);
+        abstract public void loadAddGroupP(String grouopId,String userCode);
+        abstract public void loadFindGroupName(String key);
+        abstract public void loadgetMyGroupP(String usercode);
     }
 }

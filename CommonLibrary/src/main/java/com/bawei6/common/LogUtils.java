@@ -3,7 +3,7 @@ package com.bawei6.common;
 import android.util.Log;
 
 public class LogUtils {
-    private static final String TAG="zylog";
+    private static final String TAG="AK47Try";
     public static void d(String log){
         Log.d(TAG,log);
     }

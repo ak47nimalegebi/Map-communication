@@ -82,6 +82,8 @@ public class MsgEntity {
         /**
          * 位置信息
          */
-        Location
+        Location,
+
+        ICON
     }
 }

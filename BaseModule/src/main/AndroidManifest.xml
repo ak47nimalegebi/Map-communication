@@ -7,5 +7,6 @@
         android:supportsRtl="true"
         android:name=".application.App"
         android:theme="@style/AppTheme">
+
     </application>
 </manifest>

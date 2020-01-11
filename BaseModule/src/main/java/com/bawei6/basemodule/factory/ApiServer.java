@@ -2,6 +2,12 @@ package com.bawei6.basemodule.factory;
 
 
 import com.bawei6.basemodule.bean.AddFriendsBean;
+import com.bawei6.basemodule.bean.AddGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBean;
+import com.bawei6.basemodule.bean.CreateGroupBodyBean;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
 import com.bawei6.basemodule.bean.ResBean;
@@ -49,5 +55,19 @@ public interface ApiServer {
     @GET("api/Friend/getFriends?")
     Observable<UserFriBean> getUserFriBean(@Query("usercode")String usercode);
 
+    @POST("api/Group/createGroup")
+    Observable<CreateGroupBean> getCreateGroupBean(@Body CreateGroupBodyBean createGroupBodyBean);
+
+    @GET("api/Group/getGroupDetailById?")
+    Observable<FindGroupBean> getFindGroupBean(@Query("groupId") String groupId);
+
+    @POST("api/Group/joinGroup?")
+    Observable<AddGroupBean> getAddGroupBean(@Query("groupId") String groupId,@Query("usercode")String usercode);
+
+    @GET("api/Group/searchGroup?")
+    Observable<FindGroupNameBean> getFindGroupNameBean(@Query("key")String key);
+
+    @GET("api/Group/getGroupsForUser?")
+    Observable<GetMyGroupBean> getMyGroupBean(@Query("usercode")String usercode);
 
 }

@@ -67,4 +67,5 @@ dependencies {
     //搜索
     implementation 'com.amap.api:navi-3dmap:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
+    implementation project(path: ':ImModule')
 }

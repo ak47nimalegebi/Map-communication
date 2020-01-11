@@ -14,6 +14,9 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.bawei6.basemodule.basemvp.BaseContract;
 import com.bawei6.basemodule.basemvp.Presenter;
+import com.bawei6.basemodule.bean.FindGroupBean;
+import com.bawei6.basemodule.bean.FindGroupNameBean;
+import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.ScoureBean;
 import com.bawei6.basemodule.bean.UpdateBodyBean;
@@ -23,7 +26,8 @@ import com.baweigame.xmpplibrary.XmppManager;
 
 import java.util.List;
 
-public class UpdateActivity extends AppCompatActivity implements BaseContract.BaseView {
+public
+class UpdateActivity extends AppCompatActivity implements BaseContract.BaseView {
 
     private EditText edi_update_id,edi_update_pwd;
     private Button btn_update_ok;
@@ -111,6 +115,33 @@ public class UpdateActivity extends AppCompatActivity implements BaseContract.Ba
 
     @Override
     public void showUserFri(List<UserFriBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showGrouption(Boolean flag) {
+
+    }
+
+
+
+    @Override
+    public void showFindGroup(List<FindGroupBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showAddGroupResult(Boolean flag) {
+
+    }
+
+    @Override
+    public void showFindGroupName(List<FindGroupNameBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showMyGroup(List<GetMyGroupBean.DataBean> list) {
 
     }
 

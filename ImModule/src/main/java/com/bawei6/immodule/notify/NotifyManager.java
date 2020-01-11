@@ -1,4 +1,4 @@
-package com.bawei6.notify;
+package com.bawei6.immodule.notify;
 
 import com.bawei6.immodule.entity.BaseMsg;
 
