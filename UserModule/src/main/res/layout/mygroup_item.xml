@@ -16,4 +16,14 @@
         android:text="ksndklasmd"
         android:layout_gravity="center"/>
 
+
+    <TextView
+        android:id="@+id/my_group_tv_outgroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="退出"
+        android:textSize="25sp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="80dp"/>
+
 </LinearLayout>

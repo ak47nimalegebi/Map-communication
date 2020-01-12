@@ -24,6 +24,8 @@ public class RecyHuoAdapter extends RecyclerView.Adapter<RecyHuoAdapter.MyViewHo
         this.list = list;
     }
 
+
+
     @NonNull
     @Override
     public MyViewHodler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -132,6 +132,11 @@ public class UserLianFriendsFragment extends Fragment implements BaseContract.Ba
     }
 
     @Override
+    public void showOutGroup(boolean flag) {
+
+    }
+
+    @Override
     public void showLoading() {
 
     }

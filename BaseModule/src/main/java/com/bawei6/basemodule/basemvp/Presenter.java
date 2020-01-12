@@ -9,6 +9,7 @@ import com.bawei6.basemodule.bean.FindGroupNameBean;
 import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
+import com.bawei6.basemodule.bean.OutGroupBean;
 import com.bawei6.basemodule.bean.ResBean;
 import com.bawei6.basemodule.bean.ResBodyBean;
 import com.bawei6.basemodule.bean.ScoureBean;
@@ -238,6 +239,24 @@ public class Presenter extends BaseContract.Presenter {
                 super.onNext(getMyGroupBean);
                 List<GetMyGroupBean.DataBean> data = getMyGroupBean.getData();
                 view.showMyGroup(data);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                LogUtils.i(e.getMessage());
+            }
+        },view.getowner());
+    }
+
+    @Override
+    public void loadOutGroupP(String groupId, String usercode) {
+        Observable<OutGroupBean> outGroupBeanObservable = model.loadOutGroupBeanM(groupId, usercode);
+        BaseObserable.doObserver(outGroupBeanObservable,new BaseObserver<OutGroupBean>(){
+            @Override
+            public void onNext(OutGroupBean outGroupBean) {
+                super.onNext(outGroupBean);
+                view.showOutGroup(outGroupBean.isData());
             }
 
             @Override

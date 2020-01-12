@@ -170,6 +170,11 @@ public class UserAddPeopleFragment extends Fragment implements BaseContract.Base
 
     }
 
+    @Override
+    public void showOutGroup(boolean flag) {
+
+    }
+
 
     @Override
     public void showLoading() {

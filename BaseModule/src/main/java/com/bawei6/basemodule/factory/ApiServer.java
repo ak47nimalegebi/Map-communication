@@ -10,6 +10,7 @@ import com.bawei6.basemodule.bean.FindGroupNameBean;
 import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
+import com.bawei6.basemodule.bean.OutGroupBean;
 import com.bawei6.basemodule.bean.ResBean;
 import com.bawei6.basemodule.bean.ResBodyBean;
 import com.bawei6.basemodule.bean.ScoureBean;
@@ -69,5 +70,9 @@ public interface ApiServer {
 
     @GET("api/Group/getGroupsForUser?")
     Observable<GetMyGroupBean> getMyGroupBean(@Query("usercode")String usercode);
+
+    @POST("api/Group/quitGroup?")
+    Observable<OutGroupBean> getOutGroupBean(@Query("groupId")String groupId,@Query("usercode")String usercode);
+
 
 }

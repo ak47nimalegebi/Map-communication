@@ -145,6 +145,11 @@ class UpdateActivity extends AppCompatActivity implements BaseContract.BaseView 
 
     }
 
+    @Override
+    public void showOutGroup(boolean flag) {
+
+    }
+
 
     @Override
     public void showLoading() {

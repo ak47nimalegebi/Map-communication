@@ -1,7 +1,10 @@
 package com.bawei6.mapcommunication;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.bawei6.basemodule.basemvp.BaseContract;
@@ -91,6 +96,28 @@ public class LogActivity extends AppCompatActivity implements BaseContract.BaseV
         user_log_ck=findViewById(R.id.log_ck);
         user_tv_update=findViewById(R.id.log_update);
 
+        //权限
+        checkAccess(Manifest.permission.ACCESS_COARSE_LOCATION,1);
+        checkAccess(Manifest.permission.ACCESS_FINE_LOCATION,2);
+        checkAccess(Manifest.permission.ACCESS_NETWORK_STATE,3);
+        checkAccess(Manifest.permission.ACCESS_WIFI_STATE,4);
+        checkAccess(Manifest.permission.CHANGE_WIFI_STATE,5);
+        checkAccess(Manifest.permission.READ_PHONE_STATE,6);
+        checkAccess(Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,7);
+        checkAccess(Manifest.permission.BLUETOOTH,8);
+        checkAccess(Manifest.permission.BLUETOOTH_ADMIN,9);
+        checkAccess(Manifest.permission.READ_EXTERNAL_STORAGE,10);
+        checkAccess(Manifest.permission.WRITE_EXTERNAL_STORAGE,11);
+        checkAccess(Manifest.permission.CAMERA,12);
+        checkAccess(Manifest.permission.VIBRATE,13);
+        checkAccess(Manifest.permission.WAKE_LOCK,14);
+        checkAccess(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,15);
+        checkAccess(Manifest.permission.RECORD_AUDIO,16);
+        checkAccess(Manifest.permission.WAKE_LOCK,17);
+        checkAccess(Manifest.permission.READ_PHONE_STATE,18);
+        checkAccess(Manifest.permission.CALL_PHONE,19);
+
+
 
         presenter.setAttachVie(this);
 
@@ -157,6 +184,17 @@ public class LogActivity extends AppCompatActivity implements BaseContract.BaseV
                 startActivity(new Intent(LogActivity.this, UpdateActivity.class));
             }
         });
+    }
+
+    private void checkAccess(String access, int code) {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            int i = ContextCompat.checkSelfPermission(getApplication(), access);
+            if(i== PackageManager.PERMISSION_GRANTED){
+
+            }else {
+                ActivityCompat.requestPermissions(this,new String[]{access},code);
+            }
+        }
     }
 
     @Override
@@ -249,6 +287,11 @@ public class LogActivity extends AppCompatActivity implements BaseContract.BaseV
 
     @Override
     public void showMyGroup(List<GetMyGroupBean.DataBean> list) {
+
+    }
+
+    @Override
+    public void showOutGroup(boolean flag) {
 
     }
 

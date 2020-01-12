@@ -60,6 +60,8 @@ public class UserFragMent extends Fragment {
         LogUtils.i("UserFrag----->"+logname);
 
 
+
+
 //        Resources resources = getContext().getResources();
 //        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
 //        int height = resources.getDimensionPixelSize(resourceId);

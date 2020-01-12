@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.ScoureBean;
 import com.bawei6.basemodule.bean.UserFriBean;
+import com.bawei6.usermodule.CallBackOnclick;
 import com.bawei6.usermodule.R;
 import com.bawei6.usermodule.adapter.RecyMyGroupAdapter;
 
@@ -100,10 +102,28 @@ public class UserLianGroupFragment extends Fragment implements BaseContract.Base
     }
 
     @Override
-    public void showMyGroup(List<GetMyGroupBean.DataBean> list) {
+    public void showMyGroup(final List<GetMyGroupBean.DataBean> list) {
         recyMyGroupAdapter=new RecyMyGroupAdapter(getContext(),list);
         recyclerView.setAdapter(recyMyGroupAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+
+        recyMyGroupAdapter.getcallBackOnclick(new CallBackOnclick() {
+            @Override
+            public void getOnclick(View view, int position) {
+                int id = list.get(position).getId();
+                String groupId = String.valueOf(id);
+                presenter.loadOutGroupP(groupId,userCode);
+                recyMyGroupAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void showOutGroup(boolean flag) {
+        Toast.makeText(getContext(), ""+flag, Toast.LENGTH_SHORT).show();
+        recyMyGroupAdapter.notifyDataSetChanged();
     }
 
     @Override

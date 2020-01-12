@@ -9,6 +9,7 @@ import com.bawei6.basemodule.bean.FindGroupNameBean;
 import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
+import com.bawei6.basemodule.bean.OutGroupBean;
 import com.bawei6.basemodule.bean.ResBean;
 import com.bawei6.basemodule.bean.ResBodyBean;
 import com.bawei6.basemodule.bean.ScoureBean;
@@ -34,6 +35,7 @@ public interface BaseContract {
         Observable<AddGroupBean> loadAddGroupM(String groupId,String userCode);
         Observable<FindGroupNameBean> loadFindGroupName(String key);
         Observable<GetMyGroupBean> loadMyGroupBeanM(String usercode);
+        Observable<OutGroupBean> loadOutGroupBeanM(String groupId,String usercode);
     }
 
     interface BaseView extends IView{
@@ -48,6 +50,7 @@ public interface BaseContract {
         void showAddGroupResult(Boolean flag);
         void showFindGroupName(List<FindGroupNameBean.DataBean> list);
         void showMyGroup(List<GetMyGroupBean.DataBean> list);
+        void showOutGroup(boolean flag);
     }
 
 
@@ -63,5 +66,6 @@ public interface BaseContract {
         abstract public void loadAddGroupP(String grouopId,String userCode);
         abstract public void loadFindGroupName(String key);
         abstract public void loadgetMyGroupP(String usercode);
+        abstract public void loadOutGroupP(String groupId,String usercode);
     }
 }

@@ -112,6 +112,11 @@ public class DuanxinActivity extends AppCompatActivity implements BaseContract.B
     }
 
     @Override
+    public void showOutGroup(boolean flag) {
+
+    }
+
+    @Override
     public void showLoading() {
 
     }

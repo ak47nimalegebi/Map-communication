@@ -201,29 +201,35 @@ public class UserAddGroupFragment extends Fragment implements BaseContract.BaseV
                 String groupId = String.valueOf(id);
                 String groupname = list.get(position).getGroupname();
 
-                MultiUserChat multiUserChat = XmppManager.getInstance().getXmppChatRoomManager().joinMultiUserChat(name,groupname);
-                Log.i("RRRR",name);
-                try {
-                    if(multiUserChat==null){
-                        Toast.makeText(getContext(), "multiUserChat为空", Toast.LENGTH_SHORT).show();
-                    }else {
-                        multiUserChat.join(Resourcepart.from(name));
-                    }
 
-                } catch (SmackException.NoResponseException e) {
-                    e.printStackTrace();
-                } catch (XMPPException.XMPPErrorException e) {
-                    e.printStackTrace();
-                } catch (SmackException.NotConnectedException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (MultiUserChatException.NotAMucServiceException e) {
-                    e.printStackTrace();
-                } catch (XmppStringprepException e) {
-                    e.printStackTrace();
+                if(view.getId()==R.id.newgrop_recy_tv_grouopname){
+
+                    MultiUserChat multiUserChat = XmppManager.getInstance().getXmppChatRoomManager().joinMultiUserChat(name,groupname);
+                    Log.i("RRRR",name);
+                    try {
+                        if(multiUserChat==null){
+                            Toast.makeText(getContext(), "multiUserChat为空", Toast.LENGTH_SHORT).show();
+                        }else {
+                            multiUserChat.join(Resourcepart.from(name));
+                        }
+
+                    } catch (SmackException.NoResponseException e) {
+                        e.printStackTrace();
+                    } catch (XMPPException.XMPPErrorException e) {
+                        e.printStackTrace();
+                    } catch (SmackException.NotConnectedException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (MultiUserChatException.NotAMucServiceException e) {
+                        e.printStackTrace();
+                    } catch (XmppStringprepException e) {
+                        e.printStackTrace();
+                    }
+                    presenter.loadAddGroupP(groupId,code);
                 }
-                presenter.loadAddGroupP(groupId,code);
+
+
             }
         });
 
@@ -233,6 +239,11 @@ public class UserAddGroupFragment extends Fragment implements BaseContract.BaseV
     @Override
     public void showMyGroup(List<GetMyGroupBean.DataBean> list) {
 
+    }
+
+    @Override
+    public void showOutGroup(boolean flag) {
+        Toast.makeText(getContext(), ""+flag, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.bawei6.basemodule.bean.FindGroupNameBean;
 import com.bawei6.basemodule.bean.GetMyGroupBean;
 import com.bawei6.basemodule.bean.LogBean;
 import com.bawei6.basemodule.bean.LogBodyBean;
+import com.bawei6.basemodule.bean.OutGroupBean;
 import com.bawei6.basemodule.bean.ResBean;
 import com.bawei6.basemodule.bean.ResBodyBean;
 import com.bawei6.basemodule.bean.ScoureBean;
@@ -96,6 +97,13 @@ public class Model implements BaseContract.BaseModel {
         ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
         Observable<GetMyGroupBean> myGroupBean = apiServer.getMyGroupBean(usercode);
         return myGroupBean;
+    }
+
+    @Override
+    public Observable<OutGroupBean> loadOutGroupBeanM(String groupId, String usercode) {
+        ApiServer apiServer = RetrofitFactory.getInstance().create(ApiServer.class);
+        Observable<OutGroupBean> outGroupBean = apiServer.getOutGroupBean(groupId, usercode);
+        return outGroupBean;
     }
 
     @Override

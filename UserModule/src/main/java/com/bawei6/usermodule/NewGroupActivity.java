@@ -186,6 +186,11 @@ public class NewGroupActivity extends AppCompatActivity implements BaseContract.
     }
 
     @Override
+    public void showOutGroup(boolean flag) {
+
+    }
+
+    @Override
     public void showLoading() {
 
     }
